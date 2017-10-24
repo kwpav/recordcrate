@@ -30,6 +30,10 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+}
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
