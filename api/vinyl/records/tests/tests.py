@@ -8,44 +8,6 @@ from records.models import Person
 from records.models import Profile
 
 
-class ProfileModelTests(APITestCase):
-    def test_create_user_profile(self):
-        """
-        Ensure that a profile is created whenever a user is created.
-        """
-        # act
-        User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
-
-        # assert
-        self.assertEqual(Profile.objects.count(), 1)
-        self.assertEqual(Profile.objects.get().user.username, 'alpharius')
-
-    def test_update_user_profile(self):
-        """
-        Ensure that a profile is updated whenever a user is updated.
-        """
-        # act
-        User.objects.create_user(
-            'alpharius',
-            'iamalpharius@alpha.legion',
-            'q1234567'
-        )
-        profile = Profile.objects.get(pk=1)
-        User.objects.filter(username='alpharius').update(username='iamalpharius')
-        # profile.username is still alpharius but
-        # the username value in the database has changed
-        # and needs to be reloaded.
-        profile.refresh_from_db()
-
-        # assert
-        self.assertEqual(Profile.objects.count(), 1)
-        self.assertEqual(profile.user.username, 'iamalpharius')
-
-
 class ProfileTests(APITestCase):
     def test_profiles_url(self):
         """

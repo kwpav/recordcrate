@@ -66,7 +66,7 @@ class Artist(models.Model):
     The artist who made the album.
     """
     name = models.CharField(max_length=50)
-    members = models.ManyToManyField(Person)
+    members = models.ManyToManyField(Person, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
         'auth.User',
@@ -98,7 +98,7 @@ class MasterAlbum(models.Model):
     """
     The album that all releases are from.
     """
-    artists = models.ManyToManyField(Artist)
+    artists = models.ManyToManyField(Artist, blank=True)
     album_name = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
@@ -173,7 +173,7 @@ class Track(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return '%s%d: %s' % (self.side, self.side_order, self.title)
+        return '%s%d. %s' % (self.side, self.side_order, self.title)
 
 
 class Profile(models.Model):
