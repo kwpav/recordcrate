@@ -2,13 +2,18 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
+from records.models import Profile
 from records.models import Label
 from records.models import Format
 from records.models import Person
-from records.models import Profile
+from records.models import Role
+from records.models import Artist
+from records.models import MasterAlbum
+from records.models import Release
+from records.models import Track
 
 
-class ProfileTests(APITestCase):
+class ProfileViewTests(APITestCase):
     def test_profiles_url(self):
         """
         Ensure that the profile list url is '/profiles/'.
@@ -33,7 +38,7 @@ class ProfileTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class UserTests(APITestCase):
+class UserViewTests(APITestCase):
     def test_users_url(self):
         """
         Ensure that the user list url is '/users/'.
@@ -58,7 +63,7 @@ class UserTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class LabelTests(APITestCase):
+class LabelViewTests(APITestCase):
     def test_labels_url(self):
         """
         Ensure that the label list url is '/labels/'.
@@ -132,7 +137,7 @@ class LabelTests(APITestCase):
         self.assertEqual(Label.objects.count(), 0)
 
 
-class FormatTests(APITestCase):
+class FormatViewTests(APITestCase):
     def test_formats_url(self):
         """
         Ensure that the format list url is '/formats/'.
@@ -206,7 +211,7 @@ class FormatTests(APITestCase):
         self.assertEqual(Format.objects.count(), 0)
 
 
-class PersonTests(APITestCase):
+class PersonViewTests(APITestCase):
     def test_people_url(self):
         """
         Ensure that the person list url is '/people/'.
@@ -255,7 +260,7 @@ class PersonTests(APITestCase):
 
     def test_create_empty_person(self):
         # arrange
-        url = reverse('format-list')
+        url = reverse('person-list')
         data = {'first_name': '', 'last_name': ''}
         user = User.objects.create_user(
             'alpharius',
@@ -269,7 +274,7 @@ class PersonTests(APITestCase):
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(Label.objects.count(), 0)
+        self.assertEqual(Person.objects.count(), 0)
 
     def test_create_person_without_logging_in(self):
         # arrange
@@ -284,23 +289,23 @@ class PersonTests(APITestCase):
         self.assertEqual(Person.objects.count(), 0)
 
 
-class TrackTests(APITestCase):
-    def test_tracks_url(self):
+class ArtistViewTests(APITestCase):
+    def test_artists_url(self):
         """
-        Ensure that the track list url is '/tracks/'.
+        Ensure that the artist list url is '/artists/'.
         """
         # arrange
-        url = reverse('track-list')
+        url = reverse('artist-list')
 
         # assert
-        self.assertEqual(url, '/tracks/')
+        self.assertEqual(url, '/artists/')
 
-    def test_get_track(self):
+    def test_get_artists_ok(self):
         """
-        Ensure that GET /tracks/ responds with 200.
+        Ensure that GET /artists/ responds with 200.
         """
         # arrange
-        url = reverse('track-list')
+        url = reverse('artist-list')
 
         # act
         response = self.client.get(url)
@@ -309,7 +314,7 @@ class TrackTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class MasterAlbumTests(APITestCase):
+class MasterAlbumViewTests(APITestCase):
     def test_masteralbums_url(self):
         """
         Ensure that the master album list url is '/masteralbums/'.
@@ -335,7 +340,7 @@ class MasterAlbumTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class ReleaseTests(APITestCase):
+class ReleaseViewTests(APITestCase):
     def test_releases_url(self):
         """
         Ensure that the release list url is '/releases/'.
@@ -360,23 +365,23 @@ class ReleaseTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class ArtistTests(APITestCase):
-    def test_artists_url(self):
+class TrackViewTests(APITestCase):
+    def test_tracks_url(self):
         """
-        Ensure that the artist list url is '/artists/'.
+        Ensure that the track list url is '/tracks/'.
         """
         # arrange
-        url = reverse('artist-list')
+        url = reverse('track-list')
 
         # assert
-        self.assertEqual(url, '/artists/')
+        self.assertEqual(url, '/tracks/')
 
-    def test_get_artists_ok(self):
+    def test_get_track(self):
         """
-        Ensure that GET /artists/ responds with 200.
+        Ensure that GET /tracks/ responds with 200.
         """
         # arrange
-        url = reverse('artist-list')
+        url = reverse('track-list')
 
         # act
         response = self.client.get(url)
@@ -385,8 +390,8 @@ class ArtistTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class RoleTests(APITestCase):
-    def test_artists_url(self):
+class RoleViewTests(APITestCase):
+    def test_roles_url(self):
         """
         Ensure that the role list url is '/roles/'.
         """

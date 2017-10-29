@@ -35,7 +35,7 @@ class Person(models.Model):
     )
 
     def __str__(self):
-        return '%s, %s' % (self.last_name, self.first_name)
+        return '{}, {}'.format(self.last_name, self.first_name)
 
 
 class Role(models.Model):
@@ -58,7 +58,7 @@ class Role(models.Model):
     )
 
     def __str__(self):
-        return '%s - %s' % (self.person, self.name)
+        return '{} - {}'.format(self.person, self.name)
 
 
 class Artist(models.Model):
@@ -98,7 +98,11 @@ class MasterAlbum(models.Model):
     """
     The album that all releases are from.
     """
-    artists = models.ManyToManyField(Artist, blank=True)
+    artists = models.ManyToManyField(
+        Artist,
+        related_name='albums',
+        blank=True
+    )
     album_name = models.CharField(max_length=100)
     created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
@@ -108,7 +112,9 @@ class MasterAlbum(models.Model):
     )
 
     def __str__(self):
-        return '%s' % self.album_name
+        # TODO OPTIMIZE THIS: it will probably cause performance issues...
+        artist_names = ', '.join(str(artist) for artist in self.artists.all())
+        return '{} - {}'.format(artist_names, self.album_name)
 
 
 class Release(models.Model):
@@ -140,6 +146,12 @@ class Release(models.Model):
         related_name='releases',
         on_delete=models.CASCADE
     )
+
+    def __str__(self):
+        return '{} ({})'.format(
+            self.master_album,
+            self.release_date[:4]
+        )
 
 
 class Track(models.Model):
@@ -173,7 +185,7 @@ class Track(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return '%s%d. %s' % (self.side, self.side_order, self.title)
+        return '{}{}. {}'.format(self.side, self.side_order, self.title)
 
 
 class Profile(models.Model):
@@ -192,7 +204,7 @@ class Profile(models.Model):
     )
 
     def __str__(self):
-        return self.user.objects.get().username
+        return self.user.username
 
 
 # Define signals so our Profile model will be automatically created/updated

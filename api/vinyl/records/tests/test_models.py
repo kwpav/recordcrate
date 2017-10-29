@@ -12,10 +12,7 @@ from records.models import Track
 
 
 class FormatModelTests(APITestCase):
-    def test_format_str(self):
-        """
-        Ensure that the __str__() method returns the description of the format.
-        """
+    def test_format_creation(self):
         # arrange
         expected_str = "33"
         user = User.objects.create_user(
@@ -31,14 +28,12 @@ class FormatModelTests(APITestCase):
         )
 
         # assert
+        self.assertTrue(isinstance(format, Format))
         self.assertEqual(format.__str__(), expected_str)
 
 
 class PersonModelTests(APITestCase):
-    def test_person_str(self):
-        """
-        Ensure that the __str__() method returns the name of the person.
-        """
+    def test_person_creation(self):
         # arrange
         expected_str = "Omegon, Alpharius"
         user = User.objects.create_user(
@@ -55,15 +50,13 @@ class PersonModelTests(APITestCase):
         )
 
         # assert
+        self.assertTrue(isinstance(person, Person))
         self.assertEqual(person.__str__(), expected_str)
 
 
 # no, not that kind of role model
 class RoleModelTests(APITestCase):
-    def test_role_str(self):
-        """
-        Ensure that the __str__() method returns the name of the role.
-        """
+    def test_role_creation(self):
         # arrange
         expected_str = "Young, Neil - Musician"
         user = User.objects.create_user(
@@ -85,14 +78,12 @@ class RoleModelTests(APITestCase):
         )
 
         # assert
+        self.assertTrue(isinstance(role, Role))
         self.assertEqual(role.__str__(), expected_str)
 
 
 class ArtistModelTests(APITestCase):
-    def test_artist_str(self):
-        """
-        Ensure that the __str__() method returns the name of the artist.
-        """
+    def test_artist_creation(self):
         # arrange
         expected_str = "The Band"
         user = User.objects.create_user(
@@ -107,14 +98,12 @@ class ArtistModelTests(APITestCase):
         )
 
         # assert
+        self.assertTrue(isinstance(artist, Artist))
         self.assertEqual(artist.__str__(), expected_str)
 
 
 class LabelModelTests(APITestCase):
-    def test_label_str(self):
-        """
-        Ensure that the __str__() method returns the name of the label.
-        """
+    def test_label_creation(self):
         # arrange
         expected_name = "MGM"
         User.objects.create_user(
@@ -130,15 +119,12 @@ class LabelModelTests(APITestCase):
         )
 
         # assert
+        self.assertTrue(isinstance(label, Label))
         self.assertEqual(label.__str__(), expected_name)
 
 
 class MasterAlbumModelTests(APITestCase):
-    def test_artist_str(self):
-        """
-        Ensure that the __str__() method returns
-        the name of the artist and album.
-        """
+    def test_masteralbum_creation(self):
         # arrange
         expected_str = 'The Band - The Last Waltz'
         user = User.objects.create_user(
@@ -150,25 +136,24 @@ class MasterAlbumModelTests(APITestCase):
             name='The Band',
             owner=user
         )
+        artist.save()
         # act
         album = MasterAlbum.objects.create(
-            #artists=artist,
             album_name='The Last Waltz',
             owner=user
         )
+        album.save()
+        album.artists.add(artist)
 
         # assert
+        self.assertTrue(isinstance(album, MasterAlbum))
         self.assertEqual(album.__str__(), expected_str)
 
 
 class ReleaseModelTests(APITestCase):
-    def test_release_str(self):
-        """
-        Ensure that the __str__() method returns
-        the name of the artist and album.
-        """
+    def test_release_creation(self):
         # arrange
-        expected_str = 'The Band - The Last Waltz'
+        expected_str = 'The Band - The Last Waltz (1978)'
         user = User.objects.create_user(
             'alpharius',
             'alpharius@alpha.legion',
@@ -178,11 +163,13 @@ class ReleaseModelTests(APITestCase):
             name='The Band',
             owner=user
         )
+        artist.save()
         album = MasterAlbum.objects.create(
-            #artists=artist,
             album_name='The Last Waltz',
             owner=user
         )
+        album.save()
+        album.artists.add(artist)
         label = Label.objects.create(
             name='MGM',
             owner=user
@@ -197,15 +184,12 @@ class ReleaseModelTests(APITestCase):
         )
 
         # assert
+        self.assertTrue(isinstance(release, Release))
         self.assertEqual(release.__str__(), expected_str)
 
 
 class TrackModelTests(APITestCase):
-    def test_track_str(self):
-        """
-        Ensure that the __str__() method returns
-        order and name of the track.
-        """
+    def test_track_creation(self):
         # arrange
         expected_str = 'A1. Theme from The Last Waltz'
         user = User.objects.create_user(
@@ -217,12 +201,13 @@ class TrackModelTests(APITestCase):
             name='The Band',
             owner=user
         )
+        artist.save()
         album = MasterAlbum.objects.create(
-            #artists=artist,
             album_name='The Last Waltz',
             owner=user
         )
         album.save()
+        album.artists.add(artist)
         label = Label.objects.create(
             name='MGM',
             owner=user
@@ -247,6 +232,7 @@ class TrackModelTests(APITestCase):
         )
 
         # assert
+        self.assertTrue(isinstance(track, Track))
         self.assertEqual(track.__str__(), expected_str)
 
 
@@ -272,12 +258,12 @@ class ProfileModelTests(APITestCase):
         """
         # act
         User.objects.create_user(
-            'alpharius',
+            'alpha',
             'iamalpharius@alpha.legion',
             'q1234567'
         )
         profile = Profile.objects.get(pk=1)
-        User.objects.filter(username='alpharius').update(username='iamalpharius')
+        User.objects.filter(username='alpha').update(username='iamalpharius')
         # profile.username is still alpharius but
         # the username value in the database has changed
         # and needs to be reloaded.
@@ -287,7 +273,7 @@ class ProfileModelTests(APITestCase):
         self.assertEqual(Profile.objects.count(), 1)
         self.assertEqual(profile.user.username, 'iamalpharius')
 
-    def test_profile_str(self):
+    def test_profile_creation(self):
         # act
         User.objects.create_user(
             'alpharius',
@@ -296,5 +282,4 @@ class ProfileModelTests(APITestCase):
         )
 
         # assert
-        self.assertEqual(Profile.objects.count(), 1)
         self.assertEqual(Profile.objects.get().__str__(), 'alpharius')

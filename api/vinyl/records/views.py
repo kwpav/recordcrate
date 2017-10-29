@@ -32,8 +32,12 @@ def api_root(request, format=None):
         'formats': reverse('format-list', request=request, format=format),
         'people': reverse('person-list', request=request, format=format),
         'artists': reverse('artist-list', request=request, format=format),
-        'labels': reverse('labels-list', request=request, format=format),
-        'masteralbums': reverse('masteralbum-list', request=request, format=format),
+        'labels': reverse('label-list', request=request, format=format),
+        'masteralbums': reverse(
+            'masteralbum-list',
+            request=request,
+            format=format
+        ),
         'releases': reverse('release-list', request=request, format=format),
         'tracks': reverse('track-list', request=request, format=format),
         'roles': reverse('role-list', request=request, format=format),

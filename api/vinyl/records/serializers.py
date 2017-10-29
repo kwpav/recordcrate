@@ -67,7 +67,7 @@ class ReleaseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ArtistSerializer(serializers.HyperlinkedModelSerializer):
-    albums = ReleaseSerializer(many=True, read_only=True)
+    albums = MasterAlbumSerializer(many=True, read_only=True)
 
     class Meta:
         model = Artist
