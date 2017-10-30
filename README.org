@@ -1,4 +1,6 @@
 * Recordcrate
+[[https://travis-ci.org/kpavao84/recordcrate.svg?branch=master]]
+
 Keep track of your records.
 
 A work in progress.

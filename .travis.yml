@@ -1,0 +1,6 @@
+language: python
+python:
+  - "3.6"
+install:
+  - pip install -r api/requirements.txt
+script: python api/vinyl/manage.py test api/vinyl/records/tests/ -v 2
