@@ -1,4 +1,5 @@
 * Recordcrate
+[[https://travis-ci.org/kpavao84/recordcrate.svg?branch=travisci-initial]]
 Keep track of your records.
 
 A work in progress.
