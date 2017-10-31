@@ -73,6 +73,13 @@ class UserViewTests(APITestCase):
 class LabelViewTests(APITestCase):
     url = reverse('label-list')
 
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
+
     def test_labels_url(self):
         """
         Ensure that the label list url is '/labels/'.
@@ -93,14 +100,9 @@ class LabelViewTests(APITestCase):
     def test_create_label(self):
         # arrange
         data = {'name': 'MGM'}
-        user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
 
         # act
-        self.client.login(username=user.username, password='q1234567')
+        self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
 
         # assert
@@ -111,14 +113,9 @@ class LabelViewTests(APITestCase):
     def test_create_empty_label(self):
         # arrange
         data = {'name': ''}
-        user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
 
         # act
-        self.client.login(username=user.username, password='q1234567')
+        self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
 
         # assert
@@ -140,6 +137,13 @@ class LabelViewTests(APITestCase):
 class FormatViewTests(APITestCase):
     url = reverse('format-list')
 
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
+
     def test_formats_url(self):
         """
         Ensure that the format list url is '/formats/'.
@@ -160,14 +164,9 @@ class FormatViewTests(APITestCase):
     def test_create_format(self):
         # arrange
         data = {'description': '33'}
-        user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
 
         # act
-        self.client.login(username=user.username, password='q1234567')
+        self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
 
         # assert
@@ -178,14 +177,9 @@ class FormatViewTests(APITestCase):
     def test_create_empty_format(self):
         # arrange
         data = {'description': ''}
-        user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
 
         # act
-        self.client.login(username=user.username, password='q1234567')
+        self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
 
         # assert
@@ -206,6 +200,13 @@ class FormatViewTests(APITestCase):
 
 class PersonViewTests(APITestCase):
     url = reverse('person-list')
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
 
     def test_people_url(self):
         """
@@ -230,14 +231,9 @@ class PersonViewTests(APITestCase):
         """
         # arrange
         data = {'first_name': 'Levon', 'last_name': 'Helm'}
-        user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
 
         # act
-        self.client.login(username=user.username, password='q1234567')
+        self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
 
         # assert
@@ -249,14 +245,9 @@ class PersonViewTests(APITestCase):
     def test_create_empty_person(self):
         # arrange
         data = {'first_name': '', 'last_name': ''}
-        user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
 
         # act
-        self.client.login(username=user.username, password='q1234567')
+        self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
 
         # assert
@@ -278,6 +269,13 @@ class PersonViewTests(APITestCase):
 class ArtistViewTests(APITestCase):
     url = reverse('artist-list')
 
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
+
     def test_artists_url(self):
         """
         Ensure that the artist list url is '/artists/'.
@@ -298,14 +296,9 @@ class ArtistViewTests(APITestCase):
     def test_create_artist(self):
         # arrange
         data = {'name': 'The Band', 'members': []}
-        user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
 
         # act
-        self.client.login(username=user.username, password='q1234567')
+        self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
 
         # assert
@@ -316,14 +309,9 @@ class ArtistViewTests(APITestCase):
     def test_create_empty_artist(self):
         # arrange
         data = {'owner': '/users/1/', 'name': '', 'members': []}
-        user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
 
         # act
-        self.client.login(username=user.username, password='q1234567')
+        self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
 
         # assert
@@ -345,6 +333,18 @@ class ArtistViewTests(APITestCase):
 class MasterAlbumViewTests(APITestCase):
     url = reverse('masteralbum-list')
 
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
+        self.artist = Artist.objects.create(
+            name='The Band',
+            owner=self.user
+        )
+        self.artist.save()
+
     def test_masteralbums_url(self):
         """
         Ensure that the master album list url is '/masteralbums/'.
@@ -365,19 +365,9 @@ class MasterAlbumViewTests(APITestCase):
     def test_create_masteralbum(self):
         # arrange
         data = {'artists': ['/artists/1/'], 'album_name': 'The Last Waltz'}
-        user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
-        artist = Artist.objects.create(
-            name='The Band',
-            owner=user
-        )
-        artist.save()
 
         # act
-        self.client.login(username=user.username, password='q1234567')
+        self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
 
         # assert
@@ -390,19 +380,9 @@ class MasterAlbumViewTests(APITestCase):
     def test_create_empty_masteralbum(self):
         # arrange
         data = {'artists': ['/artists/1/'], 'album_name': ''}
-        user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
-        artist = Artist.objects.create(
-            name='The Band',
-            owner=user
-        )
-        artist.save()
 
         # act
-        self.client.login(username=user.username, password='q1234567')
+        self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
 
         # assert
@@ -412,16 +392,6 @@ class MasterAlbumViewTests(APITestCase):
     def test_create_masteralbum_without_logging_in(self):
         # arrange
         data = {'artists': ['/artists/1/'], 'album_name': 'The Last Waltz'}
-        user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
-        artist = Artist.objects.create(
-            name='The Band',
-            owner=user
-        )
-        artist.save()
 
         # act
         response = self.client.post(self.url, data, format='json')
@@ -433,6 +403,28 @@ class MasterAlbumViewTests(APITestCase):
 
 class ReleaseViewTests(APITestCase):
     url = reverse('release-list')
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
+        self.artist = Artist.objects.create(
+            name='The Band',
+            owner=self.user
+        )
+        self.artist.save()
+        self.album = MasterAlbum.objects.create(
+            album_name='The Last Waltz',
+            owner=self.user
+        )
+        self.album.save()
+        self.album.artists.add(self.artist)
+        self.label = Label.objects.create(
+            name='MGM',
+            owner=self.user
+        )
 
     def test_releases_url(self):
         """
@@ -451,9 +443,72 @@ class ReleaseViewTests(APITestCase):
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_create_release(self):
+        # arrange
+        data = {
+            'master_album': '/masteralbums/1/',
+            'label': '/labels/1/',
+            'formats': [],
+            'release_date': '1978-04-26',
+            'tracks': [],
+            'roles': []
+        }
+
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.post(self.url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Release.objects.count(), 1)
+
+    def test_create_empty_release(self):
+        # arrange
+        data = {
+            'master_album': '',
+            'label': '',
+            'formats': [],
+            'release_date': '',
+            'tracks': [],
+            'roles': []
+        }
+
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.post(self.url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Release.objects.count(), 0)
+
+    def test_create_release_without_logging_in(self):
+        # arrange
+        data = {
+            'master_album': '/masteralbums/1/',
+            'label': '/labels/1/',
+            'formats': [],
+            'release_date': '1978-04-26',
+            'tracks': [],
+            'roles': []
+        }
+
+        # act
+        response = self.client.post(self.url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(Release.objects.count(), 0)
+
 
 class TrackViewTests(APITestCase):
     url = reverse('track-list')
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
 
     def test_tracks_url(self):
         """
@@ -474,6 +529,13 @@ class TrackViewTests(APITestCase):
 
 class RoleViewTests(APITestCase):
     url = reverse('role-list')
+
+    def setUp(self):
+        self.user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
 
     def test_roles_url(self):
         """
