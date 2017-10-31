@@ -843,3 +843,24 @@ class RoleViewTests(APITestCase):
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Role.objects.count(), 0)
+
+    def test_read_role(self):
+        # arrange
+        Role.objects.create(
+            name='Drummer',
+            person=self.person,
+            owner=self.user
+        )
+        expected_response = [OrderedDict([
+            ('url', 'http://testserver/roles/1/'),
+            ('id', 1),
+            ('owner', self.user.username),
+            ('name', 'Drummer'),
+            ('person', 'http://testserver/people/1/')
+        ])]
+
+        # act
+        response = self.client.get(self.url)
+
+        # assert
+        self.assertEqual(response.data, expected_response)
