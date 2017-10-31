@@ -509,6 +509,28 @@ class TrackViewTests(APITestCase):
             'alpharius@alpha.legion',
             'q1234567'
         )
+        artist = Artist.objects.create(
+            name='The Band',
+            owner=self.user
+        )
+        artist.save()
+        album = MasterAlbum.objects.create(
+            album_name='The Last Waltz',
+            owner=self.user
+        )
+        album.save()
+        album.artists.add(artist)
+        label = Label.objects.create(
+            name='MGM',
+            owner=self.user
+        )
+        release = Release.objects.create(
+            master_album=MasterAlbum.objects.get(),
+            label=label,
+            release_date='1978-04-26',
+            owner=self.user
+        )
+        release.save()
 
     def test_tracks_url(self):
         """
@@ -526,6 +548,65 @@ class TrackViewTests(APITestCase):
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_create_track(self):
+        # arrange
+        data = {
+            'order': 1,
+            'release': '/releases/1/',
+            'side': 'A',
+            'side_order': 1,
+            'title': 'Theme from the last waltz',
+            'duration': 120,
+            'roles': []
+        }
+
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.post(self.url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Track.objects.count(), 1)
+
+    def test_create_empty_track(self):
+        # arrange
+        data = {
+            'order': 1,
+            'release': '',
+            'side': '',
+            'side_order': 1,
+            'title': '',
+            'duration': 120,
+            'roles': []
+        }
+
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.post(self.url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Track.objects.count(), 0)
+
+    def test_create_track_without_logging_in(self):
+        # arrange
+        data = {
+            'order': 1,
+            'release': '/releases/1/',
+            'side': 'A',
+            'side_order': 1,
+            'title': 'Theme from the last waltz',
+            'duration': 120,
+            'roles': []
+        }
+
+        # act
+        response = self.client.post(self.url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(Track.objects.count(), 0)
+
 
 class RoleViewTests(APITestCase):
     url = reverse('role-list')
@@ -535,6 +616,11 @@ class RoleViewTests(APITestCase):
             'alpharius',
             'alpharius@alpha.legion',
             'q1234567'
+        )
+        self.person = Person.objects.create(
+            first_name='Levon',
+            last_name='Helm',
+            owner=self.user
         )
 
     def test_roles_url(self):
@@ -553,3 +639,47 @@ class RoleViewTests(APITestCase):
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_create_role(self):
+        # arrange
+        data = {
+            'name': 'Drummer',
+            'person': '/people/1/'
+        }
+
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.post(self.url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Role.objects.count(), 1)
+
+    def test_create_empty_role(self):
+        # arrange
+        data = {
+            'name': '',
+            'person': ''
+        }
+
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.post(self.url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Role.objects.count(), 0)
+
+    def test_create_role_without_logging_in(self):
+        # arrange
+        data = {
+            'name': 'Drummer',
+            'person': '/people/1/'
+        }
+
+        # act
+        response = self.client.post(self.url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(Role.objects.count(), 0)
