@@ -26,6 +26,8 @@ from records.models import Artist
 from records.models import MasterAlbum
 from records.models import Release
 from records.models import Track
+# the client returns the response as an OrderedDict
+from collections import OrderedDict
 
 
 class ProfileViewTests(APITestCase):
@@ -133,6 +135,25 @@ class LabelViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Label.objects.count(), 0)
 
+    def test_read_label(self):
+        # arrange
+        Label.objects.create(
+            name='MGM',
+            owner=User.objects.get()
+        )
+        expected_response = [OrderedDict([
+            ('url', 'http://testserver/labels/1/'),
+            ('id', 1),
+            ('owner', self.user.username),
+            ('name', 'MGM')
+        ])]
+
+        # act
+        response = self.client.get(self.url)
+
+        # assert
+        self.assertEqual(response.data, expected_response)
+
 
 class FormatViewTests(APITestCase):
     url = reverse('format-list')
@@ -196,6 +217,25 @@ class FormatViewTests(APITestCase):
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Format.objects.count(), 0)
+
+    def test_read_format(self):
+        # arrange
+        Format.objects.create(
+            description='33',
+            owner=self.user
+        )
+        expected_response = [OrderedDict([
+            ('url', 'http://testserver/formats/1/'),
+            ('id', 1),
+            ('owner', self.user.username),
+            ('description', '33')
+        ])]
+
+        # act
+        response = self.client.get(self.url)
+
+        # assert
+        self.assertEqual(response.data, expected_response)
 
 
 class PersonViewTests(APITestCase):
