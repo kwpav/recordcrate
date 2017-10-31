@@ -1,3 +1,17 @@
+# This file is part of recordcrate.
+
+# recordcrate is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# recordcrate is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with recordcrate.  If not, see <http://www.gnu.org/licenses/>.
 
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
@@ -154,7 +168,7 @@ class MasterAlbumModelTests(APITestCase):
 class ReleaseModelTests(APITestCase):
     def test_release_creation(self):
         # arrange
-        expected_str = 'The Band - The Last Waltz (1978)'
+        expected_str = 'The Band - The Last Waltz (1978-04-26)'
         user = User.objects.create_user(
             'alpharius',
             'alpharius@alpha.legion',

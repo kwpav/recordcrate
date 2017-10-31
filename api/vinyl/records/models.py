@@ -165,7 +165,7 @@ class Release(models.Model):
     def __str__(self):
         return '{} ({})'.format(
             self.master_album,
-            self.release_date[:4]
+            self.release_date
         )
 
 
