@@ -1,4 +1,4 @@
-[[https://travis-ci.org/kpavao84/recordcreate][https://travis-ci.org/kpavao84/recordcrate.svg?branch=master]]
+[[https://travis-ci.org/kpavao84/recordcrate][https://travis-ci.org/kpavao84/recordcrate.svg?branch=master]]
 
 * Recordcrate
 
