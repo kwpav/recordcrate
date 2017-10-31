@@ -603,6 +603,32 @@ class ReleaseViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Release.objects.count(), 0)
 
+    def test_read_release(self):
+        # arrange
+        Release.objects.create(
+            master_album=self.album,
+            label=self.label,
+            release_date='1978-04-26',
+            owner=self.user
+        )
+        expected_response = [OrderedDict([
+            ('url', 'http://testserver/releases/1/'),
+            ('id', 1),
+            ('owner', self.user.username),
+            ('master_album', 'http://testserver/masteralbums/1/'),
+            ('label', 'http://testserver/labels/1/'),
+            ('formats', []),
+            ('release_date', '1978-04-26'),
+            ('tracks', []),
+            ('roles', [])
+        ])]
+
+        # act
+        response = self.client.get(self.url)
+
+        # assert
+        self.assertEqual(response.data, expected_response)
+
 
 class TrackViewTests(APITestCase):
     url = reverse('track-list')
