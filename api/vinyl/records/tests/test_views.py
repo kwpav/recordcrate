@@ -328,6 +328,55 @@ class ArtistViewTests(APITestCase):
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_create_artist(self):
+        # arrange
+        url = reverse('artist-list')
+        data = {'owner': '/users/1/', 'name': 'The Band', 'members': []}
+        user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
+
+        # act
+        self.client.login(username=user.username, password='q1234567')
+        response = self.client.post(url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Artist.objects.count(), 1)
+        self.assertEqual(Artist.objects.get().name, 'The Band')
+
+    def test_create_empty_artist(self):
+        # arrange
+        url = reverse('artist-list')
+        data = {'owner': '/users/1/', 'name': '', 'members': []}
+        user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
+
+        # act
+        self.client.login(username=user.username, password='q1234567')
+        response = self.client.post(url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Label.objects.count(), 0)
+
+    def test_create_artist_without_logging_in(self):
+        # arrange
+        url = reverse('artist-list')
+        data = {'owner': '/users/1/', 'name': 'The Band', 'members': []}
+
+        # act
+        response = self.client.post(url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(Format.objects.count(), 0)
+
 
 class MasterAlbumViewTests(APITestCase):
     def test_masteralbums_url(self):
@@ -344,7 +393,6 @@ class MasterAlbumViewTests(APITestCase):
         """
         Ensure that GET /masteralbums/ responds with 200.
         """
-
         # arrange
         url = reverse('masteralbum-list')
 
