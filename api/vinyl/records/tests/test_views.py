@@ -305,6 +305,27 @@ class PersonViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Person.objects.count(), 0)
 
+    def test_read_person(self):
+        # arrange
+        Person.objects.create(
+            first_name='Levon',
+            last_name='Helm',
+            owner=self.user
+        )
+        expected_response = [OrderedDict([
+            ('url', 'http://testserver/people/1/'),
+            ('id', 1),
+            ('owner', self.user.username),
+            ('first_name', 'Levon'),
+            ('last_name', 'Helm'),
+        ])]
+
+        # act
+        response = self.client.get(self.url)
+
+        # assert
+        self.assertEqual(response.data, expected_response)
+
 
 class ArtistViewTests(APITestCase):
     url = reverse('artist-list')
@@ -368,6 +389,27 @@ class ArtistViewTests(APITestCase):
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Format.objects.count(), 0)
+
+    def test_read_artist(self):
+        # arrange
+        Artist.objects.create(
+            name='The Band',
+            owner=self.user
+        )
+        expected_response = [OrderedDict([
+            ('url', 'http://testserver/artists/1/'),
+            ('id', 1),
+            ('owner', self.user.username),
+            ('name', 'The Band'),
+            ('members', []),
+            ('albums', [])
+        ])]
+
+        # act
+        response = self.client.get(self.url)
+
+        # assert
+        self.assertEqual(response.data, expected_response)
 
 
 class MasterAlbumViewTests(APITestCase):
