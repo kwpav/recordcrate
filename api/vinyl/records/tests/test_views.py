@@ -402,6 +402,77 @@ class MasterAlbumViewTests(APITestCase):
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_create_masteralbum(self):
+        # arrange
+        url = reverse('masteralbum-list')
+        data = {'artists': ['/artists/1/'], 'album_name': 'The Last Waltz'}
+        user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
+        artist = Artist.objects.create(
+            name='The Band',
+            owner=user
+        )
+        artist.save()
+
+        # act
+        self.client.login(username=user.username, password='q1234567')
+        response = self.client.post(url, data, format='json')
+
+        # assert
+        self.assertEqual(Artist.objects.count(), 1)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(MasterAlbum.objects.count(), 1)
+        self.assertEqual(MasterAlbum.objects.get().album_name,
+                         'The Last Waltz')
+
+    def test_create_empty_masteralbum(self):
+        # arrange
+        url = reverse('masteralbum-list')
+        data = {'artists': ['/artists/1/'], 'album_name': ''}
+        user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
+        artist = Artist.objects.create(
+            name='The Band',
+            owner=user
+        )
+        artist.save()
+
+        # act
+        self.client.login(username=user.username, password='q1234567')
+        response = self.client.post(url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(MasterAlbum.objects.count(), 0)
+
+    def test_create_masteralbum_without_logging_in(self):
+        # arrange
+        url = reverse('masteralbum-list')
+        data = {'artists': ['/artists/1/'], 'album_name': 'The Last Waltz'}
+        user = User.objects.create_user(
+            'alpharius',
+            'alpharius@alpha.legion',
+            'q1234567'
+        )
+        artist = Artist.objects.create(
+            name='The Band',
+            owner=user
+        )
+        artist.save()
+
+        # act
+        response = self.client.post(url, data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(MasterAlbum.objects.count(), 0)
+
 
 class ReleaseViewTests(APITestCase):
     def test_releases_url(self):
