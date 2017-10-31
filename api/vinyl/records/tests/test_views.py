@@ -331,7 +331,7 @@ class ArtistViewTests(APITestCase):
     def test_create_artist(self):
         # arrange
         url = reverse('artist-list')
-        data = {'owner': '/users/1/', 'name': 'The Band', 'members': []}
+        data = {'name': 'The Band', 'members': []}
         user = User.objects.create_user(
             'alpharius',
             'alpharius@alpha.legion',

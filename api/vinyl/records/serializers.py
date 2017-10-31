@@ -82,6 +82,7 @@ class ReleaseSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class ArtistSerializer(serializers.HyperlinkedModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.username')
     albums = MasterAlbumSerializer(many=True, read_only=True)
 
     class Meta:
