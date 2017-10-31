@@ -737,6 +737,36 @@ class TrackViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Track.objects.count(), 0)
 
+    def test_read_track(self):
+        # arrange
+        Track.objects.create(
+            release=Release.objects.get(pk=1),
+            side='A',
+            side_order=1,
+            order=1,
+            title='Theme from the Last Waltz',
+            duration=218,
+            owner=self.user
+        )
+        expected_response = [OrderedDict([
+            ('url', 'http://testserver/tracks/1/'),
+            ('id', 1),
+            ('owner', self.user.username),
+            ('order', 1),
+            ('release', 'http://testserver/releases/1/'),
+            ('side', 'A'),
+            ('side_order', 1),
+            ('title', 'Theme from the Last Waltz'),
+            ('duration', 218),
+            ('roles', [])
+        ])]
+
+        # act
+        response = self.client.get(self.url)
+
+        # assert
+        self.assertEqual(response.data, expected_response)
+
 
 class RoleViewTests(APITestCase):
     url = reverse('role-list')
