@@ -482,6 +482,28 @@ class MasterAlbumViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(MasterAlbum.objects.count(), 0)
 
+    def test_read_masteralbum(self):
+        # arrange
+        album = MasterAlbum.objects.create(
+            album_name='The Last Waltz',
+            owner=self.user
+        )
+        album.save()
+        album.artists.add(self.artist)
+        expected_response = [OrderedDict([
+            ('url', 'http://testserver/masteralbums/1/'),
+            ('id', 1),
+            ('owner', self.user.username),
+            ('artists', ['http://testserver/artists/1/']),
+            ('album_name', 'The Last Waltz')
+        ])]
+
+        # act
+        response = self.client.get(self.url)
+
+        # assert
+        self.assertEqual(response.data, expected_response)
+
 
 class ReleaseViewTests(APITestCase):
     url = reverse('release-list')
