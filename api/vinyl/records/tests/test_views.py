@@ -29,82 +29,69 @@ from records.models import Track
 
 
 class ProfileViewTests(APITestCase):
+    url = reverse('profile-list')
+
     def test_profiles_url(self):
         """
         Ensure that the profile list url is '/profiles/'.
         """
-        # arrange
-        url = reverse('profile-list')
-
         # assert
-        self.assertEqual(url, '/profiles/')
+        self.assertEqual(self.url, '/profiles/')
 
     def test_get_profiles_ok(self):
         """
         Ensure that GET /profiles/ responds with 200.
         """
-        # arrange
-        url = reverse('profile-list')
-
         # act
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class UserViewTests(APITestCase):
+    url = reverse('user-list')
+
     def test_users_url(self):
         """
         Ensure that the user list url is '/users/'.
         """
-        # arrange
-        url = reverse('user-list')
-
         # assert
-        self.assertEqual(url, '/users/')
+        self.assertEqual(self.url, '/users/')
 
     def test_get_users_ok(self):
         """
         Ensure that GET /users/ responds with 200.
         """
-        # arrange
-        url = reverse('user-list')
-
         # act
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class LabelViewTests(APITestCase):
+    url = reverse('label-list')
+
     def test_labels_url(self):
         """
         Ensure that the label list url is '/labels/'.
         """
-        # arrange
-        url = reverse('label-list')
-
         # assert
-        self.assertEqual(url, '/labels/')
+        self.assertEqual(self.url, '/labels/')
 
     def test_get_labels_ok(self):
         """
         Ensure that GET /labels/ responds with 200.
         """
-        # arrange
-        url = reverse('label-list')
-
         # act
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_label(self):
         # arrange
-        url = reverse('label-list')
         data = {'name': 'MGM'}
         user = User.objects.create_user(
             'alpharius',
@@ -114,7 +101,7 @@ class LabelViewTests(APITestCase):
 
         # act
         self.client.login(username=user.username, password='q1234567')
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -123,7 +110,6 @@ class LabelViewTests(APITestCase):
 
     def test_create_empty_label(self):
         # arrange
-        url = reverse('label-list')
         data = {'name': ''}
         user = User.objects.create_user(
             'alpharius',
@@ -133,7 +119,7 @@ class LabelViewTests(APITestCase):
 
         # act
         self.client.login(username=user.username, password='q1234567')
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -141,11 +127,10 @@ class LabelViewTests(APITestCase):
 
     def test_create_label_without_logging_in(self):
         # arrange
-        url = reverse('label-list')
         data = {'name': 'MGM'}
 
         # act
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -153,32 +138,27 @@ class LabelViewTests(APITestCase):
 
 
 class FormatViewTests(APITestCase):
+    url = reverse('format-list')
+
     def test_formats_url(self):
         """
         Ensure that the format list url is '/formats/'.
         """
-        # arrange
-        url = reverse('format-list')
-
         # assert
-        self.assertEqual(url, '/formats/')
+        self.assertEqual(self.url, '/formats/')
 
     def test_get_formats_ok(self):
         """
         Ensure that GET /format/ responds with 200.
         """
-        # arrange
-        url = reverse('format-list')
-
         # act
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_format(self):
         # arrange
-        url = reverse('format-list')
         data = {'description': '33'}
         user = User.objects.create_user(
             'alpharius',
@@ -188,7 +168,7 @@ class FormatViewTests(APITestCase):
 
         # act
         self.client.login(username=user.username, password='q1234567')
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -197,7 +177,6 @@ class FormatViewTests(APITestCase):
 
     def test_create_empty_format(self):
         # arrange
-        url = reverse('format-list')
         data = {'description': ''}
         user = User.objects.create_user(
             'alpharius',
@@ -207,7 +186,7 @@ class FormatViewTests(APITestCase):
 
         # act
         self.client.login(username=user.username, password='q1234567')
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -215,11 +194,10 @@ class FormatViewTests(APITestCase):
 
     def test_create_format_without_logging_in(self):
         # arrange
-        url = reverse('format-list')
         data = {'name': '33'}
 
         # act
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -227,25 +205,21 @@ class FormatViewTests(APITestCase):
 
 
 class PersonViewTests(APITestCase):
+    url = reverse('person-list')
+
     def test_people_url(self):
         """
         Ensure that the person list url is '/people/'.
         """
-        # arrange
-        url = reverse('person-list')
-
         # assert
-        self.assertEqual(url, '/people/')
+        self.assertEqual(self.url, '/people/')
 
     def test_get_people_ok(self):
         """
         Ensure that GET /people/ responds with 200.
         """
-        # arrange
-        url = reverse('person-list')
-
         # act
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -255,7 +229,6 @@ class PersonViewTests(APITestCase):
         Ensure that we can create a person.
         """
         # arrange
-        url = reverse('person-list')
         data = {'first_name': 'Levon', 'last_name': 'Helm'}
         user = User.objects.create_user(
             'alpharius',
@@ -265,7 +238,7 @@ class PersonViewTests(APITestCase):
 
         # act
         self.client.login(username=user.username, password='q1234567')
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -275,7 +248,6 @@ class PersonViewTests(APITestCase):
 
     def test_create_empty_person(self):
         # arrange
-        url = reverse('person-list')
         data = {'first_name': '', 'last_name': ''}
         user = User.objects.create_user(
             'alpharius',
@@ -285,7 +257,7 @@ class PersonViewTests(APITestCase):
 
         # act
         self.client.login(username=user.username, password='q1234567')
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -293,11 +265,10 @@ class PersonViewTests(APITestCase):
 
     def test_create_person_without_logging_in(self):
         # arrange
-        url = reverse('person-list')
         data = {'first_name': 'Levon', 'last_name': 'Helm'}
 
         # act
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -305,32 +276,27 @@ class PersonViewTests(APITestCase):
 
 
 class ArtistViewTests(APITestCase):
+    url = reverse('artist-list')
+
     def test_artists_url(self):
         """
         Ensure that the artist list url is '/artists/'.
         """
-        # arrange
-        url = reverse('artist-list')
-
         # assert
-        self.assertEqual(url, '/artists/')
+        self.assertEqual(self.url, '/artists/')
 
     def test_get_artists_ok(self):
         """
         Ensure that GET /artists/ responds with 200.
         """
-        # arrange
-        url = reverse('artist-list')
-
         # act
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_artist(self):
         # arrange
-        url = reverse('artist-list')
         data = {'name': 'The Band', 'members': []}
         user = User.objects.create_user(
             'alpharius',
@@ -340,7 +306,7 @@ class ArtistViewTests(APITestCase):
 
         # act
         self.client.login(username=user.username, password='q1234567')
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -349,7 +315,6 @@ class ArtistViewTests(APITestCase):
 
     def test_create_empty_artist(self):
         # arrange
-        url = reverse('artist-list')
         data = {'owner': '/users/1/', 'name': '', 'members': []}
         user = User.objects.create_user(
             'alpharius',
@@ -359,7 +324,7 @@ class ArtistViewTests(APITestCase):
 
         # act
         self.client.login(username=user.username, password='q1234567')
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -367,11 +332,10 @@ class ArtistViewTests(APITestCase):
 
     def test_create_artist_without_logging_in(self):
         # arrange
-        url = reverse('artist-list')
         data = {'owner': '/users/1/', 'name': 'The Band', 'members': []}
 
         # act
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -379,32 +343,27 @@ class ArtistViewTests(APITestCase):
 
 
 class MasterAlbumViewTests(APITestCase):
+    url = reverse('masteralbum-list')
+
     def test_masteralbums_url(self):
         """
         Ensure that the master album list url is '/masteralbums/'.
         """
-        # arrange
-        url = reverse('masteralbum-list')
-
         # assert
-        self.assertEqual(url, '/masteralbums/')
+        self.assertEqual(self.url, '/masteralbums/')
 
     def test_get_masteralbums_ok(self):
         """
         Ensure that GET /masteralbums/ responds with 200.
         """
-        # arrange
-        url = reverse('masteralbum-list')
-
         # act
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_masteralbum(self):
         # arrange
-        url = reverse('masteralbum-list')
         data = {'artists': ['/artists/1/'], 'album_name': 'The Last Waltz'}
         user = User.objects.create_user(
             'alpharius',
@@ -419,7 +378,7 @@ class MasterAlbumViewTests(APITestCase):
 
         # act
         self.client.login(username=user.username, password='q1234567')
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(Artist.objects.count(), 1)
@@ -430,7 +389,6 @@ class MasterAlbumViewTests(APITestCase):
 
     def test_create_empty_masteralbum(self):
         # arrange
-        url = reverse('masteralbum-list')
         data = {'artists': ['/artists/1/'], 'album_name': ''}
         user = User.objects.create_user(
             'alpharius',
@@ -445,7 +403,7 @@ class MasterAlbumViewTests(APITestCase):
 
         # act
         self.client.login(username=user.username, password='q1234567')
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -453,7 +411,6 @@ class MasterAlbumViewTests(APITestCase):
 
     def test_create_masteralbum_without_logging_in(self):
         # arrange
-        url = reverse('masteralbum-list')
         data = {'artists': ['/artists/1/'], 'album_name': 'The Last Waltz'}
         user = User.objects.create_user(
             'alpharius',
@@ -467,7 +424,7 @@ class MasterAlbumViewTests(APITestCase):
         artist.save()
 
         # act
-        response = self.client.post(url, data, format='json')
+        response = self.client.post(self.url, data, format='json')
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
@@ -475,75 +432,62 @@ class MasterAlbumViewTests(APITestCase):
 
 
 class ReleaseViewTests(APITestCase):
+    url = reverse('release-list')
+
     def test_releases_url(self):
         """
         Ensure that the release list url is '/releases/'.
         """
-        # arrange
-        url = reverse('masteralbum-list')
-
         # assert
-        self.assertEqual(url, '/masteralbums/')
+        self.assertEqual(self.url, '/releases/')
 
     def test_get_releases_ok(self):
         """
         Ensure that GET /releases/ responds with 200.
         """
-        # arrange
-        url = reverse('release-list')
-
         # act
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class TrackViewTests(APITestCase):
+    url = reverse('track-list')
+
     def test_tracks_url(self):
         """
         Ensure that the track list url is '/tracks/'.
         """
-        # arrange
-        url = reverse('track-list')
-
-        # assert
-        self.assertEqual(url, '/tracks/')
+        self.assertEqual(self.url, '/tracks/')
 
     def test_get_track(self):
         """
         Ensure that GET /tracks/ responds with 200.
         """
-        # arrange
-        url = reverse('track-list')
-
         # act
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class RoleViewTests(APITestCase):
+    url = reverse('role-list')
+
     def test_roles_url(self):
         """
         Ensure that the role list url is '/roles/'.
         """
-        # arrange
-        url = reverse('role-list')
-
         # assert
-        self.assertEqual(url, '/roles/')
+        self.assertEqual(self.url, '/roles/')
 
     def test_get_roles_ok(self):
         """
         Ensure that GET /roles/ responds with 200.
         """
-        # arrange
-        url = reverse('role-list')
-
         # act
-        response = self.client.get(url)
+        response = self.client.get(self.url)
 
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
