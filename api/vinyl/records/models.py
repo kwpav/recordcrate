@@ -50,7 +50,7 @@ class Person(models.Model):
     )
 
     def __str__(self):
-        return '{}, {}'.format(self.last_name, self.first_name)
+        return f'{self.last_name}, {self.first_name}'
 
 
 class Role(models.Model):
@@ -73,7 +73,7 @@ class Role(models.Model):
     )
 
     def __str__(self):
-        return '{} - {}'.format(self.person, self.name)
+        return f'{self.person} - {self.name}'
 
 
 class Artist(models.Model):
@@ -129,7 +129,7 @@ class MasterAlbum(models.Model):
     def __str__(self):
         # TODO OPTIMIZE THIS: it will probably cause performance issues...
         artist_names = ', '.join(str(artist) for artist in self.artists.all())
-        return '{} - {}'.format(artist_names, self.album_name)
+        return f'{artist_names} - {self.album_name}'
 
 
 class Release(models.Model):
@@ -163,10 +163,7 @@ class Release(models.Model):
     )
 
     def __str__(self):
-        return '{} ({})'.format(
-            self.master_album,
-            self.release_date
-        )
+        return f'{self.master_album} ({self.release_date})'
 
 
 class Track(models.Model):
@@ -200,7 +197,7 @@ class Track(models.Model):
         ordering = ['order']
 
     def __str__(self):
-        return '{}{}. {}'.format(self.side, self.side_order, self.title)
+        return f'{self.side}{self.side_order}. {self.title}'
 
 
 class Profile(models.Model):
