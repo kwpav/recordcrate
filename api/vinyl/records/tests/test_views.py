@@ -731,6 +731,45 @@ class ReleaseViewTests(APITestCase):
         # assert
         self.assertEqual(response.data, expected_response)
 
+    def test_update_release(self):
+        # arrange
+        Release.objects.create(
+            master_album=self.album,
+            label=self.label,
+            release_date='1978-04-26',
+            owner=self.user
+        )
+        data = {
+            'url': 'http://testserver/releases/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'master_album': 'http://testserver/masteralbums/1/',
+            'label': 'http://testserver/labels/1/',
+            'formats': [],
+            'release_date': '1978-05-26',
+            'tracks': [],
+            'roles': []
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/releases/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_release(self):
+        # arrange
+        Release.objects.create(
+            master_album=self.album,
+            label=self.label,
+            release_date='1978-04-26',
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 class TrackViewTests(APITestCase):
     url = reverse('track-list')
