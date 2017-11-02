@@ -899,6 +899,52 @@ class TrackViewTests(APITestCase):
         # assert
         self.assertEqual(response.data, expected_response)
 
+    def test_update_track(self):
+        # arrange
+        Track.objects.create(
+            release=Release.objects.get(pk=1),
+            side='A',
+            side_order=1,
+            order=1,
+            title='Theme from the Last Waltz',
+            duration=218,
+            owner=self.user
+        )
+        data = {
+            'url': 'http://testserver/tracks/1/',
+            'id': 1,
+            'owner': 'kevin',
+            'order': 1,
+            'release': 'http://testserver/releases/1/',
+            'side': 'A',
+            'side_order': 1,
+            'title': 'Up on Cripple Creek',
+            'duration': 220,
+            'roles': []
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/releases/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_track(self):
+        # arrange
+        Track.objects.create(
+            release=Release.objects.get(pk=1),
+            side='A',
+            side_order=1,
+            order=1,
+            title='Theme from the Last Waltz',
+            duration=218,
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 class RoleViewTests(APITestCase):
     url = reverse('role-list')
