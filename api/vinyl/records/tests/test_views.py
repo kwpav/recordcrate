@@ -154,6 +154,40 @@ class LabelViewTests(APITestCase):
         # assert
         self.assertEqual(response.data, expected_response)
 
+    def test_update_label(self):
+        # arrange
+        Label.objects.create(
+            name='MGM',
+            owner=User.objects.get()
+        )
+        data = {
+            'url': 'http://testserver/labels/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'name': 'MGM1',
+        }
+
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/labels/1/', data, format='json')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_label(self):
+        # arrange
+        Label.objects.create(
+            name='MGM',
+            owner=User.objects.get()
+        )
+
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 class FormatViewTests(APITestCase):
     url = reverse('format-list')
