@@ -582,6 +582,39 @@ class MasterAlbumViewTests(APITestCase):
         # assert
         self.assertEqual(response.data, expected_response)
 
+    def test_update_masteralbum(self):
+        # arrange
+        album = MasterAlbum.objects.create(
+            album_name='The Last Waltz',
+            owner=self.user
+        )
+        album.save()
+        album.artists.add(self.artist)
+        data = {
+            'url': 'http://testserver/masteralbums/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'artists': ['http://testserver/artists/1/'],
+            'album_name': 'Music from Big Pink',
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/masteralbums/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_masteralbum(self):
+        # arrange
+        MasterAlbum.objects.create(
+            album_name='The Last Waltz',
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 class ReleaseViewTests(APITestCase):
     url = reverse('release-list')
