@@ -357,6 +357,39 @@ class PersonViewTests(APITestCase):
         # assert
         self.assertEqual(response.data, expected_response)
 
+    def test_update_person(self):
+        # arrange
+        Person.objects.create(
+            first_name='Levon',
+            last_name='Helm',
+            owner=self.user
+        )
+        data = {
+            'url': 'http://testserver/people/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'first_name': 'Neil',
+            'last_name': 'Young'
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/people/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_person(self):
+        # arrange
+        Person.objects.create(
+            first_name='Levon',
+            last_name='Helm',
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 class ArtistViewTests(APITestCase):
     url = reverse('artist-list')
