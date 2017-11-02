@@ -913,7 +913,7 @@ class TrackViewTests(APITestCase):
         data = {
             'url': 'http://testserver/tracks/1/',
             'id': 1,
-            'owner': 'kevin',
+            'owner': self.user.username,
             'order': 1,
             'release': 'http://testserver/releases/1/',
             'side': 'A',
@@ -924,7 +924,7 @@ class TrackViewTests(APITestCase):
         }
         # act
         self.client.login(username=self.user.username, password='q1234567')
-        response = self.client.put('/releases/1/', data, format='json')
+        response = self.client.put('/tracks/1/', data, format='json')
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, data)
@@ -1033,3 +1033,35 @@ class RoleViewTests(APITestCase):
         response = self.client.get(self.url)
         # assert
         self.assertEqual(response.data, expected_response)
+
+    def test_update_role(self):
+        Role.objects.create(
+            name='Drummer',
+            person=self.person,
+            owner=self.user
+        )
+        data = {
+            'url': 'http://testserver/roles/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'name': 'Musician',
+            'person': 'http://testserver/people/1/'
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/roles/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_roles(self):
+        # arrange
+        Role.objects.create(
+            name='Drummer',
+            person=self.person,
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
