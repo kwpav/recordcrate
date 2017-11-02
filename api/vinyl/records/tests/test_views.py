@@ -46,7 +46,6 @@ class ProfileViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -67,7 +66,6 @@ class UserViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -95,18 +93,15 @@ class LabelViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_label(self):
         # arrange
         data = {'name': 'MGM'}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Label.objects.count(), 1)
@@ -115,11 +110,9 @@ class LabelViewTests(APITestCase):
     def test_create_empty_label(self):
         # arrange
         data = {'name': ''}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Label.objects.count(), 0)
@@ -127,10 +120,8 @@ class LabelViewTests(APITestCase):
     def test_create_label_without_logging_in(self):
         # arrange
         data = {'name': 'MGM'}
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Label.objects.count(), 0)
@@ -147,10 +138,8 @@ class LabelViewTests(APITestCase):
             ('owner', self.user.username),
             ('name', 'MGM')
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
 
@@ -166,11 +155,9 @@ class LabelViewTests(APITestCase):
             'owner': self.user.username,
             'name': 'MGM1',
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.put('/labels/1/', data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, data)
@@ -181,10 +168,8 @@ class LabelViewTests(APITestCase):
             name='MGM',
             owner=User.objects.get()
         )
-
         # act
         response = self.client.delete(f'{self.url}/1/')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
@@ -212,18 +197,15 @@ class FormatViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_format(self):
         # arrange
         data = {'description': '33'}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Format.objects.count(), 1)
@@ -232,11 +214,9 @@ class FormatViewTests(APITestCase):
     def test_create_empty_format(self):
         # arrange
         data = {'description': ''}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Label.objects.count(), 0)
@@ -244,10 +224,8 @@ class FormatViewTests(APITestCase):
     def test_create_format_without_logging_in(self):
         # arrange
         data = {'name': '33'}
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Format.objects.count(), 0)
@@ -264,10 +242,8 @@ class FormatViewTests(APITestCase):
             ('owner', self.user.username),
             ('description', '33')
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
 
@@ -325,7 +301,6 @@ class PersonViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -335,11 +310,9 @@ class PersonViewTests(APITestCase):
         """
         # arrange
         data = {'first_name': 'Levon', 'last_name': 'Helm'}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Person.objects.count(), 1)
@@ -349,11 +322,9 @@ class PersonViewTests(APITestCase):
     def test_create_empty_person(self):
         # arrange
         data = {'first_name': '', 'last_name': ''}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Person.objects.count(), 0)
@@ -361,10 +332,8 @@ class PersonViewTests(APITestCase):
     def test_create_person_without_logging_in(self):
         # arrange
         data = {'first_name': 'Levon', 'last_name': 'Helm'}
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Person.objects.count(), 0)
@@ -383,10 +352,8 @@ class PersonViewTests(APITestCase):
             ('first_name', 'Levon'),
             ('last_name', 'Helm'),
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
 
@@ -414,18 +381,15 @@ class ArtistViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_artist(self):
         # arrange
         data = {'name': 'The Band', 'members': []}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Artist.objects.count(), 1)
@@ -434,11 +398,9 @@ class ArtistViewTests(APITestCase):
     def test_create_empty_artist(self):
         # arrange
         data = {'owner': '/users/1/', 'name': '', 'members': []}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Label.objects.count(), 0)
@@ -446,10 +408,8 @@ class ArtistViewTests(APITestCase):
     def test_create_artist_without_logging_in(self):
         # arrange
         data = {'owner': '/users/1/', 'name': 'The Band', 'members': []}
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Format.objects.count(), 0)
@@ -468,10 +428,8 @@ class ArtistViewTests(APITestCase):
             ('members', []),
             ('albums', [])
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
 
@@ -504,18 +462,15 @@ class MasterAlbumViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_masteralbum(self):
         # arrange
         data = {'artists': ['/artists/1/'], 'album_name': 'The Last Waltz'}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(Artist.objects.count(), 1)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -526,11 +481,9 @@ class MasterAlbumViewTests(APITestCase):
     def test_create_empty_masteralbum(self):
         # arrange
         data = {'artists': ['/artists/1/'], 'album_name': ''}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(MasterAlbum.objects.count(), 0)
@@ -538,10 +491,8 @@ class MasterAlbumViewTests(APITestCase):
     def test_create_masteralbum_without_logging_in(self):
         # arrange
         data = {'artists': ['/artists/1/'], 'album_name': 'The Last Waltz'}
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(MasterAlbum.objects.count(), 0)
@@ -561,10 +512,8 @@ class MasterAlbumViewTests(APITestCase):
             ('artists', ['http://testserver/artists/1/']),
             ('album_name', 'The Last Waltz')
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
 
@@ -607,7 +556,6 @@ class ReleaseViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -621,11 +569,9 @@ class ReleaseViewTests(APITestCase):
             'tracks': [],
             'roles': []
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Release.objects.count(), 1)
@@ -640,11 +586,9 @@ class ReleaseViewTests(APITestCase):
             'tracks': [],
             'roles': []
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Release.objects.count(), 0)
@@ -659,10 +603,8 @@ class ReleaseViewTests(APITestCase):
             'tracks': [],
             'roles': []
         }
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Release.objects.count(), 0)
@@ -686,10 +628,8 @@ class ReleaseViewTests(APITestCase):
             ('tracks', []),
             ('roles', [])
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
 
@@ -738,7 +678,6 @@ class TrackViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -753,11 +692,9 @@ class TrackViewTests(APITestCase):
             'duration': 120,
             'roles': []
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Track.objects.count(), 1)
@@ -773,11 +710,9 @@ class TrackViewTests(APITestCase):
             'duration': 120,
             'roles': []
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Track.objects.count(), 0)
@@ -793,10 +728,8 @@ class TrackViewTests(APITestCase):
             'duration': 120,
             'roles': []
         }
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Track.objects.count(), 0)
@@ -824,10 +757,8 @@ class TrackViewTests(APITestCase):
             ('duration', 218),
             ('roles', [])
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
 
@@ -860,7 +791,6 @@ class RoleViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -870,11 +800,9 @@ class RoleViewTests(APITestCase):
             'name': 'Drummer',
             'person': '/people/1/'
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Role.objects.count(), 1)
@@ -885,11 +813,9 @@ class RoleViewTests(APITestCase):
             'name': '',
             'person': ''
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Role.objects.count(), 0)
@@ -900,10 +826,8 @@ class RoleViewTests(APITestCase):
             'name': 'Drummer',
             'person': '/people/1/'
         }
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Role.objects.count(), 0)
@@ -922,9 +846,7 @@ class RoleViewTests(APITestCase):
             ('name', 'Drummer'),
             ('person', 'http://testserver/people/1/')
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
