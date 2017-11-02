@@ -46,7 +46,6 @@ class ProfileViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -67,7 +66,6 @@ class UserViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -95,18 +93,15 @@ class LabelViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_label(self):
         # arrange
         data = {'name': 'MGM'}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Label.objects.count(), 1)
@@ -115,11 +110,9 @@ class LabelViewTests(APITestCase):
     def test_create_empty_label(self):
         # arrange
         data = {'name': ''}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Label.objects.count(), 0)
@@ -127,10 +120,8 @@ class LabelViewTests(APITestCase):
     def test_create_label_without_logging_in(self):
         # arrange
         data = {'name': 'MGM'}
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Label.objects.count(), 0)
@@ -147,12 +138,40 @@ class LabelViewTests(APITestCase):
             ('owner', self.user.username),
             ('name', 'MGM')
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
+
+    def test_update_label(self):
+        # arrange
+        Label.objects.create(
+            name='MGM',
+            owner=User.objects.get()
+        )
+        data = {
+            'url': 'http://testserver/labels/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'name': 'MGM1',
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/labels/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_label(self):
+        # arrange
+        Label.objects.create(
+            name='MGM',
+            owner=User.objects.get()
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
 class FormatViewTests(APITestCase):
@@ -178,18 +197,15 @@ class FormatViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_format(self):
         # arrange
         data = {'description': '33'}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Format.objects.count(), 1)
@@ -198,11 +214,9 @@ class FormatViewTests(APITestCase):
     def test_create_empty_format(self):
         # arrange
         data = {'description': ''}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Label.objects.count(), 0)
@@ -210,10 +224,8 @@ class FormatViewTests(APITestCase):
     def test_create_format_without_logging_in(self):
         # arrange
         data = {'name': '33'}
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Format.objects.count(), 0)
@@ -230,12 +242,40 @@ class FormatViewTests(APITestCase):
             ('owner', self.user.username),
             ('description', '33')
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
+
+    def test_update_format(self):
+        # arrange
+        Format.objects.create(
+            description='33',
+            owner=self.user
+        )
+        data = {
+            'url': 'http://testserver/formats/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'description': '45',
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/formats/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_format(self):
+        # arrange
+        Format.objects.create(
+            description='33',
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
 class PersonViewTests(APITestCase):
@@ -261,7 +301,6 @@ class PersonViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -271,11 +310,9 @@ class PersonViewTests(APITestCase):
         """
         # arrange
         data = {'first_name': 'Levon', 'last_name': 'Helm'}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Person.objects.count(), 1)
@@ -285,11 +322,9 @@ class PersonViewTests(APITestCase):
     def test_create_empty_person(self):
         # arrange
         data = {'first_name': '', 'last_name': ''}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Person.objects.count(), 0)
@@ -297,10 +332,8 @@ class PersonViewTests(APITestCase):
     def test_create_person_without_logging_in(self):
         # arrange
         data = {'first_name': 'Levon', 'last_name': 'Helm'}
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Person.objects.count(), 0)
@@ -319,12 +352,43 @@ class PersonViewTests(APITestCase):
             ('first_name', 'Levon'),
             ('last_name', 'Helm'),
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
+
+    def test_update_person(self):
+        # arrange
+        Person.objects.create(
+            first_name='Levon',
+            last_name='Helm',
+            owner=self.user
+        )
+        data = {
+            'url': 'http://testserver/people/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'first_name': 'Neil',
+            'last_name': 'Young'
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/people/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_person(self):
+        # arrange
+        Person.objects.create(
+            first_name='Levon',
+            last_name='Helm',
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
 class ArtistViewTests(APITestCase):
@@ -350,18 +414,15 @@ class ArtistViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_artist(self):
         # arrange
         data = {'name': 'The Band', 'members': []}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Artist.objects.count(), 1)
@@ -370,11 +431,9 @@ class ArtistViewTests(APITestCase):
     def test_create_empty_artist(self):
         # arrange
         data = {'owner': '/users/1/', 'name': '', 'members': []}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Label.objects.count(), 0)
@@ -382,10 +441,8 @@ class ArtistViewTests(APITestCase):
     def test_create_artist_without_logging_in(self):
         # arrange
         data = {'owner': '/users/1/', 'name': 'The Band', 'members': []}
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Format.objects.count(), 0)
@@ -404,12 +461,42 @@ class ArtistViewTests(APITestCase):
             ('members', []),
             ('albums', [])
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
+
+    def test_update_artist(self):
+        # arrange
+        Artist.objects.create(
+            name='The Band',
+            owner=self.user
+        )
+        data = {
+            'url': 'http://testserver/artists/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'name': 'Band, The',
+            'members': [],
+            'albums': []
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/artists/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_artist(self):
+        # arrange
+        Artist.objects.create(
+            name='The Band',
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
 class MasterAlbumViewTests(APITestCase):
@@ -440,18 +527,15 @@ class MasterAlbumViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_create_masteralbum(self):
         # arrange
         data = {'artists': ['/artists/1/'], 'album_name': 'The Last Waltz'}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(Artist.objects.count(), 1)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -462,11 +546,9 @@ class MasterAlbumViewTests(APITestCase):
     def test_create_empty_masteralbum(self):
         # arrange
         data = {'artists': ['/artists/1/'], 'album_name': ''}
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(MasterAlbum.objects.count(), 0)
@@ -474,10 +556,8 @@ class MasterAlbumViewTests(APITestCase):
     def test_create_masteralbum_without_logging_in(self):
         # arrange
         data = {'artists': ['/artists/1/'], 'album_name': 'The Last Waltz'}
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(MasterAlbum.objects.count(), 0)
@@ -497,12 +577,43 @@ class MasterAlbumViewTests(APITestCase):
             ('artists', ['http://testserver/artists/1/']),
             ('album_name', 'The Last Waltz')
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
+
+    def test_update_masteralbum(self):
+        # arrange
+        album = MasterAlbum.objects.create(
+            album_name='The Last Waltz',
+            owner=self.user
+        )
+        album.save()
+        album.artists.add(self.artist)
+        data = {
+            'url': 'http://testserver/masteralbums/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'artists': ['http://testserver/artists/1/'],
+            'album_name': 'Music from Big Pink',
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/masteralbums/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_masteralbum(self):
+        # arrange
+        MasterAlbum.objects.create(
+            album_name='The Last Waltz',
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
 class ReleaseViewTests(APITestCase):
@@ -543,7 +654,6 @@ class ReleaseViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -557,11 +667,9 @@ class ReleaseViewTests(APITestCase):
             'tracks': [],
             'roles': []
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Release.objects.count(), 1)
@@ -576,11 +684,9 @@ class ReleaseViewTests(APITestCase):
             'tracks': [],
             'roles': []
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Release.objects.count(), 0)
@@ -595,10 +701,8 @@ class ReleaseViewTests(APITestCase):
             'tracks': [],
             'roles': []
         }
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Release.objects.count(), 0)
@@ -622,12 +726,49 @@ class ReleaseViewTests(APITestCase):
             ('tracks', []),
             ('roles', [])
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
+
+    def test_update_release(self):
+        # arrange
+        Release.objects.create(
+            master_album=self.album,
+            label=self.label,
+            release_date='1978-04-26',
+            owner=self.user
+        )
+        data = {
+            'url': 'http://testserver/releases/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'master_album': 'http://testserver/masteralbums/1/',
+            'label': 'http://testserver/labels/1/',
+            'formats': [],
+            'release_date': '1978-05-26',
+            'tracks': [],
+            'roles': []
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/releases/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_release(self):
+        # arrange
+        Release.objects.create(
+            master_album=self.album,
+            label=self.label,
+            release_date='1978-04-26',
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
 class TrackViewTests(APITestCase):
@@ -674,7 +815,6 @@ class TrackViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -689,11 +829,9 @@ class TrackViewTests(APITestCase):
             'duration': 120,
             'roles': []
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Track.objects.count(), 1)
@@ -709,11 +847,9 @@ class TrackViewTests(APITestCase):
             'duration': 120,
             'roles': []
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Track.objects.count(), 0)
@@ -729,10 +865,8 @@ class TrackViewTests(APITestCase):
             'duration': 120,
             'roles': []
         }
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Track.objects.count(), 0)
@@ -760,12 +894,56 @@ class TrackViewTests(APITestCase):
             ('duration', 218),
             ('roles', [])
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
+
+    def test_update_track(self):
+        # arrange
+        Track.objects.create(
+            release=Release.objects.get(pk=1),
+            side='A',
+            side_order=1,
+            order=1,
+            title='Theme from the Last Waltz',
+            duration=218,
+            owner=self.user
+        )
+        data = {
+            'url': 'http://testserver/tracks/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'order': 1,
+            'release': 'http://testserver/releases/1/',
+            'side': 'A',
+            'side_order': 1,
+            'title': 'Up on Cripple Creek',
+            'duration': 220,
+            'roles': []
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/tracks/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_track(self):
+        # arrange
+        Track.objects.create(
+            release=Release.objects.get(pk=1),
+            side='A',
+            side_order=1,
+            order=1,
+            title='Theme from the Last Waltz',
+            duration=218,
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
 class RoleViewTests(APITestCase):
@@ -796,7 +974,6 @@ class RoleViewTests(APITestCase):
         """
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
@@ -806,11 +983,9 @@ class RoleViewTests(APITestCase):
             'name': 'Drummer',
             'person': '/people/1/'
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Role.objects.count(), 1)
@@ -821,11 +996,9 @@ class RoleViewTests(APITestCase):
             'name': '',
             'person': ''
         }
-
         # act
         self.client.login(username=self.user.username, password='q1234567')
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(Role.objects.count(), 0)
@@ -836,10 +1009,8 @@ class RoleViewTests(APITestCase):
             'name': 'Drummer',
             'person': '/people/1/'
         }
-
         # act
         response = self.client.post(self.url, data, format='json')
-
         # assert
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertEqual(Role.objects.count(), 0)
@@ -858,9 +1029,39 @@ class RoleViewTests(APITestCase):
             ('name', 'Drummer'),
             ('person', 'http://testserver/people/1/')
         ])]
-
         # act
         response = self.client.get(self.url)
-
         # assert
         self.assertEqual(response.data, expected_response)
+
+    def test_update_role(self):
+        Role.objects.create(
+            name='Drummer',
+            person=self.person,
+            owner=self.user
+        )
+        data = {
+            'url': 'http://testserver/roles/1/',
+            'id': 1,
+            'owner': self.user.username,
+            'name': 'Musician',
+            'person': 'http://testserver/people/1/'
+        }
+        # act
+        self.client.login(username=self.user.username, password='q1234567')
+        response = self.client.put('/roles/1/', data, format='json')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, data)
+
+    def test_delete_roles(self):
+        # arrange
+        Role.objects.create(
+            name='Drummer',
+            person=self.person,
+            owner=self.user
+        )
+        # act
+        response = self.client.delete(f'{self.url}/1/')
+        # assert
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
