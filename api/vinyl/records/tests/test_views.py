@@ -26,6 +26,7 @@ from records.models import Artist
 from records.models import MasterAlbum
 from records.models import Release
 from records.models import Track
+from helpers import TestDataHelper
 # the client returns the response as an OrderedDict
 from collections import OrderedDict
 
@@ -72,13 +73,10 @@ class UserViewTests(APITestCase):
 
 class LabelViewTests(APITestCase):
     url = reverse('label-list')
+    test_data_helper = TestDataHelper()
 
     def setUp(self):
-        self.user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
+        self.user = self.test_data_helper.create_user()
 
     def test_labels_url(self):
         """
@@ -176,13 +174,10 @@ class LabelViewTests(APITestCase):
 
 class FormatViewTests(APITestCase):
     url = reverse('format-list')
+    test_data_helper = TestDataHelper()
 
     def setUp(self):
-        self.user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
+        self.user = self.test_data_helper.create_user()
 
     def test_formats_url(self):
         """
@@ -280,13 +275,10 @@ class FormatViewTests(APITestCase):
 
 class PersonViewTests(APITestCase):
     url = reverse('person-list')
+    test_data_helper = TestDataHelper()
 
     def setUp(self):
-        self.user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
+        self.user = self.test_data_helper.create_user()
 
     def test_people_url(self):
         """
@@ -393,13 +385,10 @@ class PersonViewTests(APITestCase):
 
 class ArtistViewTests(APITestCase):
     url = reverse('artist-list')
+    test_data_helper = TestDataHelper()
 
     def setUp(self):
-        self.user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
+        self.user = self.test_data_helper.create_user()
 
     def test_artists_url(self):
         """
@@ -501,13 +490,10 @@ class ArtistViewTests(APITestCase):
 
 class MasterAlbumViewTests(APITestCase):
     url = reverse('masteralbum-list')
+    test_data_helper = TestDataHelper()
 
     def setUp(self):
-        self.user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
+        self.user = self.test_data_helper.create_user()
         self.artist = Artist.objects.create(
             name='The Band',
             owner=self.user
@@ -618,28 +604,12 @@ class MasterAlbumViewTests(APITestCase):
 
 class ReleaseViewTests(APITestCase):
     url = reverse('release-list')
+    test_data_helper = TestDataHelper()
 
     def setUp(self):
-        self.user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
-        self.artist = Artist.objects.create(
-            name='The Band',
-            owner=self.user
-        )
-        self.artist.save()
-        self.album = MasterAlbum.objects.create(
-            album_name='The Last Waltz',
-            owner=self.user
-        )
-        self.album.save()
-        self.album.artists.add(self.artist)
-        self.label = Label.objects.create(
-            name='MGM',
-            owner=self.user
-        )
+        self.user = self.test_data_helper.create_user()
+        self.album = self.test_data_helper.create_album()
+        self.label = self.test_data_helper.create_label()
 
     def test_releases_url(self):
         """
@@ -773,35 +743,11 @@ class ReleaseViewTests(APITestCase):
 
 class TrackViewTests(APITestCase):
     url = reverse('track-list')
+    test_data_helper = TestDataHelper()
 
     def setUp(self):
-        self.user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
-        artist = Artist.objects.create(
-            name='The Band',
-            owner=self.user
-        )
-        artist.save()
-        album = MasterAlbum.objects.create(
-            album_name='The Last Waltz',
-            owner=self.user
-        )
-        album.save()
-        album.artists.add(artist)
-        label = Label.objects.create(
-            name='MGM',
-            owner=self.user
-        )
-        release = Release.objects.create(
-            master_album=MasterAlbum.objects.get(),
-            label=label,
-            release_date='1978-04-26',
-            owner=self.user
-        )
-        release.save()
+        self.user = self.test_data_helper.create_user()
+        self.test_data_helper.create_release()
 
     def test_tracks_url(self):
         """
@@ -948,13 +894,10 @@ class TrackViewTests(APITestCase):
 
 class RoleViewTests(APITestCase):
     url = reverse('role-list')
+    test_data_helper = TestDataHelper()
 
     def setUp(self):
-        self.user = User.objects.create_user(
-            'alpharius',
-            'alpharius@alpha.legion',
-            'q1234567'
-        )
+        self.user = self.test_data_helper.create_user()
         self.person = Person.objects.create(
             first_name='Levon',
             last_name='Helm',
