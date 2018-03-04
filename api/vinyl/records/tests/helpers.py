@@ -14,15 +14,10 @@
 # along with recordcrate.  If not, see <http://www.gnu.org/licenses/>.
 
 from django.contrib.auth.models import User
-from records.models import Profile
 from records.models import Label
-from records.models import Format
-from records.models import Person
-from records.models import Role
 from records.models import Artist
 from records.models import MasterAlbum
 from records.models import Release
-from records.models import Track
 
 
 class TestDataHelper:
