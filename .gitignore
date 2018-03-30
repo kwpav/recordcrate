@@ -101,3 +101,10 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+# javascript
+node_modules/
+.npm
+.env
+.tern-port
