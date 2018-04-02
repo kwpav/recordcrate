@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import AlbumCard from './AlbumCard';
 
 function AlbumList(props) {

@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import People from './People';
 
 function BandDetail(props) {
   return (
     <div className="record-collection container">
 
       <div>
-        <h1 id="page-title">The Band</h1>
+        <h1 className="page-title">The Band</h1>
         <img src="https://img.discogs.com/bHGI7q-dbvdhlIbEmVhguF_KIFw=/fit-in/455x455/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-1564673-1443567983-5247.jpeg.jpg" />
       </div>
 
@@ -20,10 +21,7 @@ function BandDetail(props) {
         </p>
       </div>
 
-      <div id="members">
-        <h3>Members</h3>
-        <a href="#">Rick Danko</a>, <a href="#">Levon Helm</a>, <a href="#">Garth Hudson</a>, <a href="#">Richard Manuel</a>
-      </div>
+      <People header="Members" people={["Rick Danko", "Levon Helm", "Garth Hudson", "Richard Manual"]}/>
 
       <div id="discography">
         <h3>Discography</h3>
