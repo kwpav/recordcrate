@@ -7,6 +7,7 @@ import Navbar from './components/Navbar';
 import AlbumList from './components/AlbumList';
 import AlbumDetail from './components/AlbumDetail';
 import BandDetail from './components/BandDetail';
+import PersonDetail from './components/PersonDetail';
 import SignIn from './components/SignIn';
 import './App.css';
 
@@ -35,6 +36,10 @@ function App() {
         <Route
           path="/band/:id"
           component={BandDetail}
+        />
+        <Route
+          path="/person/:id"
+          component={PersonDetail}
         />
         <Route
           path="/signin"
