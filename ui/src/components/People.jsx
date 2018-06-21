@@ -7,10 +7,7 @@ function People(props) {
       <h3>{props.header}</h3>
       <p>
         {props.people.map(person =>
-          <Link
-            to={`/person/${person.id}`}
-            key={person.id}
-          >
+          <Link key={person.id} to={`/person/${person.id}`}>
             {person.name}
           </Link>)}
       </p>
