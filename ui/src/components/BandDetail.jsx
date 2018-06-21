@@ -23,10 +23,12 @@ function BandDetail(props) {
       <People
         header="Members"
         people={
-          ['Rick Danko',
-           'Levon Helm',
-           'Garth Hudson',
-           'Richard Manual']
+          [
+            { id: 1, name: 'Rick Danko' },
+            { id: 2, name: 'Levon Helm' },
+            { id: 3, name: 'Garth Hudson' },
+            { id: 4, name: 'Richard Manual' },
+          ]
         }
       />
 
