@@ -13,7 +13,7 @@ const Tracklist = props => (
       </thead>
       <tbody>
         {props.tracks.map((track, i) => (
-          <tr>
+          <tr key={track.id}>
             <th scope="row">{i + 1}.</th>
             <td>{track.title}</td>
             <td>{track.length}</td>

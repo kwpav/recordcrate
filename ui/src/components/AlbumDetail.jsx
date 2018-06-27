@@ -19,8 +19,8 @@ const AlbumDetail = props => (
     <Tracklist
       tracks={
         [
-          { title: 'Theme from the Last Waltz', length: '3:28' },
-          { title: 'Up on Cripple Creek', length: '4:44' },
+          { id: 1, title: 'Theme from the Last Waltz', length: '3:28' },
+          { id: 2, title: 'Up on Cripple Creek', length: '4:44' },
         ]
       }
     />
