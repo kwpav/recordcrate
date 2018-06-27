@@ -11,43 +11,41 @@ import PersonDetail from './components/PersonDetail';
 import SignIn from './components/SignIn';
 import './App.css';
 
-function App() {
-  return (
-    <Router>
-      <div>
-        <Navbar />
-        <Route
-          exact={true}
-          path="/"
-          component={AlbumList}
-        />
-        <Route
-          path="/collected"
-          render={() => (<AlbumList pageTitle="Collected" />)}
-        />
-        <Route
-          path="/wanted"
-          render={() => (<AlbumList pageTitle="Wanted" />)}
-        />
-        <Route
-          path="/album/:id"
-          component={AlbumDetail}
-        />
-        <Route
-          path="/band/:id"
-          component={BandDetail}
-        />
-        <Route
-          path="/person/:id"
-          component={PersonDetail}
-        />
-        <Route
-          path="/signin"
-          component={SignIn}
-        />
-      </div>
-    </Router>
-  );
-}
+const App = () => (
+  <Router>
+    <div>
+      <Navbar />
+      <Route
+        exact={true}
+        path="/"
+        component={AlbumList}
+      />
+      <Route
+        path="/collected"
+        render={() => (<AlbumList pageTitle="Collected" />)}
+      />
+      <Route
+        path="/wanted"
+        render={() => (<AlbumList pageTitle="Wanted" />)}
+      />
+      <Route
+        path="/album/:id"
+        component={AlbumDetail}
+      />
+      <Route
+        path="/band/:id"
+        component={BandDetail}
+      />
+      <Route
+        path="/person/:id"
+        component={PersonDetail}
+      />
+      <Route
+        path="/signin"
+        component={SignIn}
+      />
+    </div>
+  </Router>
+);
 
 export default App;

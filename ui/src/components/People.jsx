@@ -1,18 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function People(props) {
-  return (
-    <div id="members">
-      <h3>{props.header}</h3>
-      <p>
-        {props.people.map(person =>
+const People = props => (
+  <div id="people">
+    <h3>{props.header}</h3>
+    <ul id="people-list">
+      {props.people.map(person =>
+        <li key={person.id}>
           <Link key={person.id} to={`/person/${person.id}`}>
             {person.name}
-          </Link>)}
-      </p>
-    </div>
-  );
-}
+          </Link>
+        </li>)}
+    </ul>
+  </div>
+);
 
 export default People;

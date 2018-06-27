@@ -1,3 +1,7 @@
+body {
+    background-color: #f5f5f5;
+}
+
 .page-title {
     margin: 1em auto 1em auto;
 }
@@ -39,6 +43,18 @@
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+nav.bg-dark {
+    background-color: #263238;
+}
+
+#people-list {
+    padding: 0;
+}
+#people-list li {
+    display: inline;
+    list-style-type: none;
 }
 
 
