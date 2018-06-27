@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AlbumCard from './AlbumCard';
 
 // TODO should the data be in groups of 3 for easier jsx?
@@ -61,5 +62,9 @@ const AlbumList = props => (
     </div>
   </div>
 );
+
+AlbumList.propTypes = {
+  pageTitle: PropTypes.string,
+};
 
 export default AlbumList;

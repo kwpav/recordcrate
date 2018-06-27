@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Tracklist = props => (
   <div id="tracklist">
@@ -23,5 +24,9 @@ const Tracklist = props => (
     </table>
   </div>
 );
+
+Tracklist.propTypes = {
+  tracks: PropTypes.array.isRequired,
+};
 
 export default Tracklist;
