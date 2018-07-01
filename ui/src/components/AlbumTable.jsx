@@ -3,30 +3,25 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const AlbumTable = props => (
-  <div id="other-versions">
+  <div>
     <h3>{props.header}</h3>
     <table className="table table-hover">
       <thead>
         <tr>
-          <th scope="col">Title (Format)</th>
-          <th scope="col">Label</th>
-          <th scope="col">Country</th>
-          <th scope="col">Year</th>
+          {props.headers.map(header => (
+            <th key={header} scope="col">{header}</th>
+          ))}
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row"><Link to="/album/1">The Last Waltz (3xLP, Album)</Link></th>
-          <td>Warner Bros. Records</td>
-          <td>US</td>
-          <td>1978</td>
-        </tr>
-        <tr>
-          <th scope="row"><Link to="/album/1">The Last Waltz (3xLP, Album)</Link></th>
-          <td>Warner Bros. Records</td>
-          <td>Canada</td>
-          <td>1978</td>
-        </tr>
+        {props.albums.map(album => (
+          <tr key={album.name}>
+            <th scope="row"><Link to="/album/1">{album.name}</Link></th>
+            <td>{album.recordLabel}</td>
+            <td>{album.country}</td>
+            <td>{album.releaseDate}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   </div>
@@ -34,6 +29,7 @@ const AlbumTable = props => (
 
 AlbumTable.propTypes = {
   header: PropTypes.string.isRequired,
+  albums: PropTypes.array.isRequired,
 };
 
 export default AlbumTable;

@@ -7,7 +7,16 @@ it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM
     .render(<MemoryRouter>
-              <AlbumTable header="Involved" />
+              <AlbumTable
+                header="Involved"
+                headers={['Title', 'Record Label', 'Country', 'Year']}
+                albums={[{
+                  name: 'The Last Waltz',
+                  recordLabel: 'Warner Bros.',
+                  country: 'US',
+                  releaseDate: '1978',
+                }]}
+              />
             </MemoryRouter>, div);
   ReactDOM.unmountComponentAtNode(div);
 });

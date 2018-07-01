@@ -22,9 +22,25 @@ const AlbumDetail = props => (
       header="People"
       people={props.people}
     />
-    <AlbumTable header="Other Versions" />
+    <AlbumTable
+      header="Other Versions"
+      headers={['Title (Format)', 'Record Label', 'Country', 'Year']}
+      albums={[{
+          name: 'The Last Waltz (3x LP)',
+          recordLabel: 'Warner Bros.',
+          country: 'US',
+          releaseDate: '1978',
+        }]}
+    />
 
   </div>
 );
+
+AlbumDetail.propTypes = {
+  albumName: PropTypes.string.isRequired,
+  bandName: PropTypes.string.isRequired,
+  tracks: PropTypes.array.isRequired,
+  people: PropTypes.array.isRequired,
+};
 
 export default AlbumDetail;

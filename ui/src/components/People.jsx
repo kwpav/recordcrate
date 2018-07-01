@@ -11,7 +11,8 @@ const People = props => (
           <Link key={person.id} to={`/person/${person.id}`}>
             {person.name}
           </Link>
-        </li>))}
+        </li>
+      ))}
     </ul>
   </div>
 );
