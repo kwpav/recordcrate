@@ -19,7 +19,7 @@ const People = props => (
 
 People.propTypes = {
   header: PropTypes.string.isRequired,
-  people: PropTypes.array.isRequired,
+  people: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default People;

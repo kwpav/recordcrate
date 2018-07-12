@@ -39,8 +39,8 @@ const AlbumDetail = props => (
 AlbumDetail.propTypes = {
   albumName: PropTypes.string.isRequired,
   bandName: PropTypes.string.isRequired,
-  tracks: PropTypes.array.isRequired,
-  people: PropTypes.array.isRequired,
+  tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  people: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default AlbumDetail;

@@ -29,7 +29,7 @@ const AlbumTable = props => (
 
 AlbumTable.propTypes = {
   header: PropTypes.string.isRequired,
-  albums: PropTypes.array.isRequired,
+  albums: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default AlbumTable;
