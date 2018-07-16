@@ -40,12 +40,12 @@ const BandDetail = props => (
         </thead>
         <tbody>
           <tr>
-            <th scope="row"><Link to="/album/1">The Last Waltz</Link></th>
+            <th scope="row"><Link to="/albums/1">The Last Waltz</Link></th>
             <td>Warner Bros. Records</td>
             <td>1978</td>
           </tr>
           <tr>
-            <th scope="row"><Link to="/album/1">The Last Waltz</Link></th>
+            <th scope="row"><Link to="/albums/1">The Last Waltz</Link></th>
             <td>Warner Bros. Records</td>
             <td>1978</td>
           </tr>

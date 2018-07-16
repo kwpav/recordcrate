@@ -16,7 +16,7 @@ const AlbumTable = props => (
       <tbody>
         {props.albums.map(album => (
           <tr key={album.name}>
-            <th scope="row"><Link to="/album/1">{album.name}</Link></th>
+            <th scope="row"><Link to="/albums/1">{album.name}</Link></th>
             <td>{album.recordLabel}</td>
             <td>{album.country}</td>
             <td>{album.releaseDate}</td>

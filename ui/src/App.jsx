@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
 } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Navbar from './components/Navbar';
 import AlbumList from './components/AlbumList';
 import AlbumDetail from './components/AlbumDetail';
@@ -11,51 +12,36 @@ import PersonDetail from './components/PersonDetail';
 import SignIn from './components/SignIn';
 import './App.css';
 
-const App = () => (
+const App = ({ records }) => (
   <Router>
     <div>
       <Navbar />
       <Route
         exact={true}
         path="/"
-        component={AlbumList}
+        render={() => <AlbumList records={[records]} />}
       />
       <Route
         path="/collected"
-        render={() => (<AlbumList pageTitle="Collected" />)}
+        render={() => <AlbumList pageTitle="Collected" records={[records]} />}
       />
       <Route
         path="/wanted"
-        render={() => (<AlbumList pageTitle="Wanted" />)}
+        render={() => (<AlbumList pageTitle="Wanted" records={[records]} />)}
       />
       <Route
-        path="/album/:id"
-        render={() =>
-          (<AlbumDetail
-            albumName="The Last Waltz"
-            bandName="The Band"
-            tracks={
-              [
-                { id: 1, title: 'Theme from the Last Waltz', length: '3:28' },
-                { id: 2, title: 'Up on Cripple Creek', length: '4:44' },
-              ]
-            }
-            people={
-              [
-                { id: 1, name: 'Rick Danko' },
-                { id: 2, name: 'Levon Helm' },
-                { id: 3, name: 'Garth Hudson' },
-                { id: 4, name: 'Richard Manual' },
-              ]
-            }
+        path="/albums/:id"
+        render={() => (
+          <AlbumDetail
+            {...records[0]}
           />)}
       />
       <Route
-        path="/band/:id"
+        path="/bands/:id"
         component={BandDetail}
       />
       <Route
-        path="/person/:id"
+        path="/people/:id"
         component={PersonDetail}
       />
       <Route
@@ -65,5 +51,9 @@ const App = () => (
     </div>
   </Router>
 );
+
+App.propTypes = {
+  records: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default App;
