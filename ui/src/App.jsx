@@ -6,7 +6,7 @@ import {
 import PropTypes from 'prop-types';
 import Navbar from './components/Navbar';
 import AlbumList from './components/AlbumList';
-import AlbumDetail from './components/AlbumDetail';
+import AlbumDetailContainer from './components/AlbumDetailContainer';
 import BandDetail from './components/BandDetail';
 import PersonDetail from './components/PersonDetail';
 import SignIn from './components/SignIn';
@@ -31,10 +31,7 @@ const App = ({ records }) => (
       />
       <Route
         path="/albums/:id"
-        render={() => (
-          <AlbumDetail
-            {...records[0]}
-          />)}
+        component={AlbumDetailContainer}
       />
       <Route
         path="/bands/:id"
