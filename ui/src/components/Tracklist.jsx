@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Tracklist = props => (
+const Tracklist = ({ tracks }) => (
   <div id="tracklist">
     <h3>Tracklist</h3>
     <table className="table table-hover">
@@ -13,7 +13,7 @@ const Tracklist = props => (
         </tr>
       </thead>
       <tbody>
-        {props.tracks.map((track, i) => (
+        {tracks.map((track, i) => (
           <tr key={track.id}>
             <th scope="row">{i + 1}.</th>
             <td>{track.title}</td>
