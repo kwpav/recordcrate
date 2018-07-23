@@ -115,6 +115,45 @@ const RecordCrateAPI = {
         description: 'Music from Big Pink is the debut studio album by the Band.[1] Released in 1968, it employs a distinctive blend of country, rock, folk, classical, R&B, and soul. The music was composed partly in "Big Pink", a house shared by Rick Danko, Richard Manuel and Garth Hudson in West Saugerties, New York. The album itself was recorded in studios in New York and Los Angeles in 1968,[2] and followed the band\'s backing of Bob Dylan on his 1966 tour (as the Hawks) and time spent together in upstate New York recording material that was officially released in 1975 as The Basement Tapes, also with Dylan. The cover artwork is a painting by Dylan.',
       },
     ],
+  artists: {
+    all: function all() { return this.artists; },
+    get: function get(id) {
+      return this.data.find(a => a.id === Number(id));
+    },
+    data: [
+      {
+        id: 1,
+        name: 'The Band',
+        members: [
+          { id: 1, name: 'Rick Danko' },
+          { id: 2, name: 'Levon Helm' },
+          { id: 3, name: 'Garth Hudson' },
+          { id: 4, name: 'Richard Manual' },
+        ],
+        description: '',
+        discography: [
+          {
+            id: 1,
+            albumName: 'The Last Waltz',
+            label: 'MGM',
+            releaseDate: '1/1/1970',
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: 'The Grateful Dead',
+        members: [
+          { id: 5, name: 'Jerry Garcia' },
+          { id: 6, name: 'Bob Weir' },
+          { id: 7, name: 'Pigpen' },
+          { id: 8, name: 'Phil Lesh' },
+        ],
+        description: '',
+        discography: [{}],
+      },
+    ],
+  },
   all: function all() { return this.records; },
   get: function get(id) {
     return this.records.find(r => r.id === Number(id));

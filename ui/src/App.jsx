@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Navbar from './components/Navbar';
 import AlbumList from './components/AlbumList';
 import AlbumDetailContainer from './components/AlbumDetailContainer';
-import BandDetail from './components/BandDetail';
+import BandDetailContainer from './components/BandDetailContainer';
 import PersonDetail from './components/PersonDetail';
 import SignIn from './components/SignIn';
 import './App.css';
@@ -35,7 +35,7 @@ const App = ({ records }) => (
       />
       <Route
         path="/bands/:id"
-        component={BandDetail}
+        component={BandDetailContainer}
       />
       <Route
         path="/people/:id"
