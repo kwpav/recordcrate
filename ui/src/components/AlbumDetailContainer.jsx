@@ -25,7 +25,7 @@ class AlbumDetailContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.setState(RecordCrateAPI.get(this.props.match.params.id));
+    this.setState(RecordCrateAPI.records.get(this.props.match.params.id));
   }
 
   render() {

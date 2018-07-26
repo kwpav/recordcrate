@@ -1,8 +1,8 @@
 // TODO: eplace mock
 
-const RecordCrateAPI = {
-  records:
-    [
+class Records {
+  constructor() {
+    this.data = [
       {
         id: 1,
         albumName: 'The Last Waltz',
@@ -114,13 +114,21 @@ const RecordCrateAPI = {
         ],
         description: 'Music from Big Pink is the debut studio album by the Band.[1] Released in 1968, it employs a distinctive blend of country, rock, folk, classical, R&B, and soul. The music was composed partly in "Big Pink", a house shared by Rick Danko, Richard Manuel and Garth Hudson in West Saugerties, New York. The album itself was recorded in studios in New York and Los Angeles in 1968,[2] and followed the band\'s backing of Bob Dylan on his 1966 tour (as the Hawks) and time spent together in upstate New York recording material that was officially released in 1975 as The Basement Tapes, also with Dylan. The cover artwork is a painting by Dylan.',
       },
-    ],
-  artists: {
-    all: function all() { return this.artists; },
-    get: function get(id) {
-      return this.data.find(a => a.id === Number(id));
-    },
-    data: [
+    ];
+  }
+
+  all() {
+    return this.data;
+  }
+
+  get(id) {
+    return this.data.find(r => r.id === Number(id));
+  }
+}
+
+class Artists {
+  constructor() {
+    this.data = [
       {
         id: 1,
         name: 'The Band',
@@ -152,12 +160,21 @@ const RecordCrateAPI = {
         description: '',
         discography: [{}],
       },
-    ],
-  },
-  all: function all() { return this.records; },
-  get: function get(id) {
-    return this.records.find(r => r.id === Number(id));
-  },
+    ];
+  }
+
+  all() {
+    return this.data;
+  }
+
+  get(id) {
+    return this.data.find(a => a.id === Number(id));
+  }
+}
+
+const RecordCrateAPI = {
+  records: new Records(),
+  artists: new Artists(),
 };
 
 export default RecordCrateAPI;
