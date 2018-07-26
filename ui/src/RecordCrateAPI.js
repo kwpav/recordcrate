@@ -172,9 +172,31 @@ class Artists {
   }
 }
 
+class People {
+  constructor() {
+    this.data = [
+      {
+        id: 1,
+        name: 'Levon Helm',
+        description: 'Mark Lavon "Levon" Helm (May 26, 1940 – April 19, 2012)[1] was an American musician and actor who achieved fame as the drummer and one of the vocalists for The Band. Helm was known for his deeply soulful, country-accented voice, multi-instrumental ability, and creative drumming style, highlighted on many of the Band\'s recordings, such as "The Weight", "Up on Cripple Creek", and "The Night They Drove Old Dixie Down".',
+        involved: [{}],
+      },
+    ];
+  }
+
+  all() {
+    return this.data;
+  }
+
+  get(id) {
+    return this.data.find(p => p.id === Number(id));
+  }
+}
+
 const RecordCrateAPI = {
   records: new Records(),
   artists: new Artists(),
+  people: new People(),
 };
 
 export default RecordCrateAPI;

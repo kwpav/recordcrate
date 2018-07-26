@@ -8,7 +8,7 @@ import Navbar from './components/Navbar';
 import AlbumList from './components/AlbumList';
 import AlbumDetailContainer from './components/AlbumDetailContainer';
 import BandDetailContainer from './components/BandDetailContainer';
-import PersonDetail from './components/PersonDetail';
+import PersonDetailContainer from './components/PersonDetailContainer';
 import SignIn from './components/SignIn';
 import './App.css';
 
@@ -39,7 +39,7 @@ const App = ({ records }) => (
       />
       <Route
         path="/people/:id"
-        component={PersonDetail}
+        component={PersonDetailContainer}
       />
       <Route
         path="/signin"

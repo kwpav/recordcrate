@@ -7,7 +7,11 @@ it('renders without crashing', () => {
   const div = document.createElement('div');
   ReactDOM
     .render(<MemoryRouter>
-              <PersonDetail />
+              <PersonDetail
+                name="Levon Helm"
+                description=""
+                involved={[{}]}
+              />
             </MemoryRouter>, div);
   ReactDOM.unmountComponentAtNode(div);
 });
