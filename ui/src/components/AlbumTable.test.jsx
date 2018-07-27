@@ -11,6 +11,7 @@ it('renders without crashing', () => {
                 header="Involved"
                 headers={['Title', 'Record Label', 'Country', 'Year']}
                 albums={[{
+                  id: 1,
                   name: 'The Last Waltz',
                   recordLabel: 'Warner Bros.',
                   country: 'US',

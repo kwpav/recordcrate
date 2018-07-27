@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import People from './People';
 
-const BandDetail = ({ name, members, description, discography }) => (
+const BandDetail = ({
+  name,
+  members,
+  description,
+  discography,
+}) => (
   <div className="container">
     <div>
       <h1 className="page-title">{name}</h1>

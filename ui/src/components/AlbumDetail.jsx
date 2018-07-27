@@ -33,6 +33,7 @@ const AlbumDetail = ({
       header="Other Versions"
       headers={['Title (Format)', 'Record Label', 'Country', 'Year']}
       albums={[{
+        id: releases[0].id,
         name: `${albumName} (${releases[0].format})`,
         recordLabel: releases[0].recordLabel,
         country: releases[0].releaseCountry,

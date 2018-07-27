@@ -13,6 +13,7 @@ class AlbumDetailContainer extends React.Component {
       albumName: '',
       artists: [{}],
       releases: [{
+        id: 0,
         tracks: [{
           id: 0,
         }],

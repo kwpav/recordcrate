@@ -15,7 +15,7 @@ const AlbumTable = props => (
       </thead>
       <tbody>
         {props.albums.map(album => (
-          <tr key={album.name}>
+          <tr key={album.id}>
             <th scope="row"><Link to="/albums/1">{album.name}</Link></th>
             <td>{album.recordLabel}</td>
             <td>{album.country}</td>
@@ -29,8 +29,8 @@ const AlbumTable = props => (
 
 AlbumTable.propTypes = {
   header: PropTypes.string.isRequired,
+  headers: PropTypes.arrayOf(PropTypes.string).isRequired,
   albums: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default AlbumTable;
-

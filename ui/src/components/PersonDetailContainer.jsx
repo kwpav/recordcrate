@@ -13,7 +13,7 @@ class PersonDetailContainer extends React.Component {
       id: 1,
       name: '',
       description: '',
-      involved: [{}],
+      involved: [{ id: 0 }],
     };
   }
 

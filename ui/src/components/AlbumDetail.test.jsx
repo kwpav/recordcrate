@@ -23,6 +23,7 @@ it('renders without crashing', () => {
                     ]}
                     releases={[
                       {
+                        id: 0,
                         recordLabel: 'MGM',
                         tracks: [
                           { id: 1, title: 'Theme from the Last Waltz', length: '3:28' },

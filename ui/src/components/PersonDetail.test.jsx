@@ -10,7 +10,13 @@ it('renders without crashing', () => {
               <PersonDetail
                 name="Levon Helm"
                 description=""
-                involved={[{}]}
+                involved={[{
+                  id: 1,
+                  name: 'The Last Waltz',
+                  recordLabel: 'Warner Bros',
+                  country: 'US',
+                  releaseDate: '1978',
+                }]}
               />
             </MemoryRouter>, div);
   ReactDOM.unmountComponentAtNode(div);
