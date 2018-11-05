@@ -13,4 +13,4 @@ MarkupSafe==1.0
 pytz==2018.6
 requests==2.20.0
 uritemplate==3.0.0
-urllib3==1.24
+urllib3==1.24.1
