@@ -64,7 +64,7 @@ class Role(models.Model):
     - etc.
     """
     name = models.CharField(max_length=50)
-    person = models.ForeignKey(Person, related_name='roles')
+    person = models.ForeignKey(Person, related_name='roles', on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
         'auth.User',
@@ -138,11 +138,13 @@ class Release(models.Model):
     """
     master_album = models.ForeignKey(
         MasterAlbum,
-        related_name='album_releases'
+        related_name='album_releases',
+        on_delete=models.CASCADE
     )
     label = models.ForeignKey(
         Label,
-        related_name='label_releases'
+        related_name='label_releases',
+        on_delete=models.CASCADE
     )
     formats = models.ManyToManyField(
         Format,
