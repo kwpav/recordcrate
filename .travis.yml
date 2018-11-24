@@ -4,5 +4,5 @@ python:
 install:
   - pip install pipenv
   - cd api
-  - pipenv install Pipfile
+  - pipenv install
 script: python vinyl/manage.py test vinyl/records/tests/ -v 2
