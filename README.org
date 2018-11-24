@@ -8,19 +8,21 @@ A work in progress.
 ** Getting Started
 Clone the repo:
 #+BEGIN_SRC sh
-  git clone https://github.com/kpavao84/recordcrate.git
+  git clone https://github.com/kwpav/recordcrate.git
 #+END_SRC
 
-Set up Python:
+Set up Python (this project assumes you have [[https://pipenv.readthedocs.io/en/latest/][Pipenv]] installed):
 #+BEGIN_SRC sh
   cd recordcrate/api/
-  virtualenv env --no-site-packages
-  source env/bin/activate
-  pip install -r requirements.txt
+  pipenv install
 #+END_SRC
 
-Run the server:
+Start the server:
 #+BEGIN_SRC sh
-  cd vinyl/
-  python manage.py runserver
+  pipenv run vinyl/manage.py runserver
+#+END_SRC
+
+Run the tests:
+#+BEGIN_SRC sh
+  pipenv run vinyl/manage.py test vinyl/records/tests/ -v 2
 #+END_SRC
