@@ -47,11 +47,11 @@
         },
         "django": {
             "hashes": [
-                "sha256:1a41831eace203fd1939edf899e07d7abd12ce9bafc3d9a5a63a24a8d1d12bd5",
-                "sha256:305b6c4fce9e03bb746e35780c2c4d52f29ea1669f15633cfd41bc8821c74c76"
+                "sha256:16a5d54411599780ac9dfe3b9b38f90f785c51259a584e0b24b6f14a7f69aae8",
+                "sha256:9a2f98211ab474c710fcdad29c82f30fc14ce9917c7a70c3682162a624de4035"
             ],
             "index": "pypi",
-            "version": "==2.1.11"
+            "version": "==2.2.4"
         },
         "django-filter": {
             "hashes": [
@@ -144,6 +144,13 @@
             ],
             "version": "==2.22.0"
         },
+        "sqlparse": {
+            "hashes": [
+                "sha256:40afe6b8d4b1117e7dff5504d7a8ce07d9a1b15aeeade8a2d10f130a834f8177",
+                "sha256:7c3dca29c022744e95b547e867cee89f4fce4373f3549ccd8797d8eb52cdb873"
+            ],
+            "version": "==0.3.0"
+        },
         "uritemplate": {
             "hashes": [
                 "sha256:01c69f4fe8ed503b2951bef85d996a9d22434d2431584b5b107b2981ff416fbd",
@@ -154,10 +161,10 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:a53063d8b9210a7bdec15e7b272776b9d42b2fd6816401a0d43006ad2f9902db",
-                "sha256:d363e3607d8de0c220d31950a8f38b18d5ba7c0830facd71a1c6b1036b7ce06c"
+                "sha256:b246607a25ac80bedac05c6f282e3cdaf3afb65420fd024ac94435cabe6e18d1",
+                "sha256:dbe59173209418ae49d485b87d1681aefa36252ee85884c31346debd19463232"
             ],
-            "version": "==1.25.2"
+            "version": "==1.25.3"
         }
     },
     "develop": {}
