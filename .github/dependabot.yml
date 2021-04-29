@@ -1,0 +1,15 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/api"
+  schedule:
+    interval: daily
+    time: "09:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: markdown
+    versions:
+    - 3.3.3
+  - dependency-name: djangorestframework
+    versions:
+    - 3.11.1
